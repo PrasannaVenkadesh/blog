@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
+import os
 
 AUTHOR = u'Prasanna Venkadesh'
 SITENAME = u'Towards Freedom'
-SITEURL = 'https://prasannavenkadesh.github.io/blog'
+SITEURL = ''
+
+THEME = os.getenv("PELICAN_THEME")
 
 PATH = 'content'
 
