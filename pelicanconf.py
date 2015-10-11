@@ -5,7 +5,7 @@ import os
 
 AUTHOR = u'Prasanna Venkadesh'
 SITENAME = u'Towards Freedom'
-SITEURL = ''
+SITEURL = 'https://prasannavenkadesh.github.io/blog'
 TAGLINE = 'Free Software + Free Culture = Free Society'
 USER_LOGO_URL = SITEURL + '/images/pic.jpg'
 
