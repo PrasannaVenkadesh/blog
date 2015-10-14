@@ -25,7 +25,8 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Blogroll
-LINKS = (('Diaspora', 'https://joindiaspora.com/u/impras'),
+LINKS = (('About', 'https://prasannavenkadesh.github.io'),
+         ('Diaspora', 'https://joindiaspora.com/u/impras'),
          ('Github', 'https://github.com/prasannavenkadesh')
         )
 
