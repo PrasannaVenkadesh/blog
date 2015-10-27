@@ -27,7 +27,8 @@ AUTHOR_FEED_RSS = None
 # Blogroll
 LINKS = (('About', 'https://prasannavenkadesh.github.io'),
          ('Diaspora', 'https://joindiaspora.com/u/impras'),
-         ('Github', 'https://github.com/prasannavenkadesh')
+         ('Github', 'https://github.com/prasannavenkadesh'),
+         ('மாற்று', 'http://maattru.com/author/prashere/')
         )
 
 # Social widget
