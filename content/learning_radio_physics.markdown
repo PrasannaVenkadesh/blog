@@ -15,4 +15,8 @@ Out of these resources, I consider a book named <a href="http://wndw.net/" targe
 
 I am finding this book extremely useful and have started learning Radio Physics since the meshnet that we are trying to build is a wireless meshnetwork using 802.11 (Wifi). WiFi signals are electromagnetic radiations (EMR) also known as Radio Signals that operate at 2.4GHz and 5GHz frequency (license exempt bands).
 
-Setting up meshnet involves setting up wireless nodes, antennas that propogates the signals and in order to do that we need to understand the basics of radio physics not just computer networks & protocols.
+Setting up meshnet involves setting up wireless nodes, antennas that propogates the signals and in order to do that we need to understand the basics of radio physics not just computer applications & protocols.
+
+Any node or host machine has to satisfy certain requirements in order to be able to join a network. These requirements are labelled traditionally as layers like in OSI Layering & TCP/IP Layering.
+
+No matter what layering model, the Physical layer forms the foundation which denotes the signal carrier & the medium of transmission. It is this physical layer that deals mostly with the property of radio physics namely frequency, bandwidth, wavelength, phases, etc., If we proceed without understanding these basics we might end up with a poor network infrastructure.
