@@ -3,11 +3,11 @@
 
 <head>
   <!-- ## for client-side less
-  <link rel="stylesheet/less" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/style.less">
+  <link rel="stylesheet/less" type="text/css" href="http://blog.purambokku.me/theme/css/style.less">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
   -->
-  <link rel="stylesheet" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/style.css">
-  <link rel="stylesheet" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="http://blog.purambokku.me/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="http://blog.purambokku.me/theme/css/pygments.css">
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
 
   <meta charset="utf-8" />
@@ -15,7 +15,7 @@
   <meta name="author" content="Prasanna Venkadesh">
   <meta name="description" content="Posts and writings by Prasanna Venkadesh">
 
-  <link href="https://prasannavenkadesh.github.io/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Towards Freedom Atom" />
+  <link href="http://blog.purambokku.me/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Towards Freedom Atom" />
 
 <meta name="keywords" content="privacy, code, free software, tech, web">
 
@@ -28,16 +28,15 @@
 <body>
   <aside>
     <div id="user_meta">
-      <a href="https://prasannavenkadesh.github.io/blog">
-        <img src="https://prasannavenkadesh.github.io/blog/images/pic.jpg" alt="logo">
+      <a href="http://blog.purambokku.me">
+        <img src="http://blog.purambokku.me/images/pic.png" alt="logo">
       </a>
-      <h3><a href="https://prasannavenkadesh.github.io/blog">Prasanna Venkadesh</a></h3>
+      <h3><a href="http://blog.purambokku.me">Prasanna Venkadesh</a></h3>
       <p><a href="https://www.gnu.org/philosophy/free-sw.en.html" target="_blank">Free Software</a> + Free Culture = Free Society</p>
       <ul>
         <li><a href="https://prasannavenkadesh.github.io" target="_blank">About</a></li>
         <li><a href="https://mastodon.social/users/prashere" target="_blank">Social</a></li>
-        <li><a href="https://github.com/prasannavenkadesh" target="_blank">Github</a></li>
-        <li><a href="https://gitlab.com/prashere/" target="_blank">Gitlab</a></li>
+        <li><a href="https://gitlab.com/prashere" target="_blank">Code</a></li>
         <li><a href="http://maattru.com/author/prashere/" target="_blank">மாற்று</a></li>
       </ul>
     </div>
@@ -46,14 +45,14 @@
   <main>
     <header>
       <p>
-      <a href="https://prasannavenkadesh.github.io/blog">Index</a> &brvbar; <a href="https://prasannavenkadesh.github.io/blog/archives.html">Archives</a>
-      &brvbar; <a href="https://prasannavenkadesh.github.io/blog/feeds/all.atom.xml">Atom</a>
+      <a href="http://blog.purambokku.me">Index</a> &brvbar; <a href="http://blog.purambokku.me/archives.html">Archives</a>
+      &brvbar; <a href="http://blog.purambokku.me/feeds/all.atom.xml">Atom</a>
       </p>
     </header>
 
 <article>
   <div class="article_title">
-    <h3><a href="https://prasannavenkadesh.github.io/blog/privacy-pictures.html">Whispering Pictures - Beware</a></h3>
+    <h3><a href="http://blog.purambokku.me/privacy-pictures.html">Whispering Pictures - Beware</a></h3>
   </div>
   <div class="article_text">
     <p><em>This is the english version of the <a href="https://fsftn.org/blog/pesum-pugaipadangal-gavanam/">tamil post</a> that I wrote for <a href="https://fsftn.org/blog">FSFTN's blog</a>.</em></p>
@@ -70,12 +69,12 @@
 <p>The EXIF defines a lot of properties like the size of the image, dimension, name and model of the device used, date and time of the picture taken, location where this picture was taken (if GPS is enabled and the application has the ability to get location from GPS), whether flash was fired or not when the picture was taken, etc., believe me, there are <a href="http://exiv2.org/tags.html">a lot of such data</a> that can be embeded along with that awesome selfie / photograph that we shoot everyday.</p>
 <p>We think, we are just taking pictures, but most of us aren't aware of the fact that all these so called <em>smart devices</em> also collect and embed a lot of other sensitive information with our pictures. You don't have to even believe what I am saying. You can try it yourself with this page that I built for demonstrating the same <a href="https://prashere.gitlab.io/exifdata/">here</a></p>
 <p>In the above demonstration, the more <em>undefined</em> you see, the more happy you can be, because those informations are not present with your pictures. Here is one example that I tried myself.</p>
-<p><img alt="image of a fan" src="https://fsftn.org/blog/content/images/2016/12/20161228_162446.jpg" /></p>
+<p><img alt="image of a fan" src="https://fsftn.org/blog/content/images/2016/12/20161228_162446.jpg"></p>
 <p>What information can you extract from the above image? Yes, you are right. It's a ceiling fan and the fan is functioning. What else can you know?</p>
-<p><img alt="screenshot of fan with exif metadata" src="https://fsftn.org/blog/content/images/2016/12/with_geolocation.png" /></p>
+<p><img alt="screenshot of fan with exif metadata" src="https://fsftn.org/blog/content/images/2016/12/with_geolocation.png"></p>
 <p>Oh crap! This photograph seems to reveal a lot than what we thought! The location of where this picture was taken, the deivce used, date and time, whether flash used or not is also visible. Using these information we can also know that the person who shoot this photograph was using this particular device and this fan and the person was at that particular location on that particular date and time! and yeah the flash did not fire ;) </p>
 <p>Now what happens when I upload this to social networks (umm, I'll be specific, yeah facbeook)</p>
-<p><img alt="screenshot of the same image uploaded to facebook" src="https://fsftn.org/blog/content/images/2016/12/facebook_exif.png" /></p>
+<p><img alt="screenshot of the same image uploaded to facebook" src="https://fsftn.org/blog/content/images/2016/12/facebook_exif.png"></p>
 <p>Look at this. Facebook retrieves the location and date from these pictures. A lot of such services on the web are waiting for us upload our data and build a profile around us and then sell it to third-party agencies for their profit. Even if we remove (or) edit, there is no way for us to make sure that those informations are actually removed from fb's server. This is how our privacy is compromised at a lot of stage. Remember, our intention was just to share a selfie or photograph that we just took, not any other information.</p>
 <p>Imagine how much selfies and photograph of our family and friends we shoot and share it in Web! Most liberal minded people would easily say, <em>hey! you are ignorant and it's your mistake that you are not aware of such things</em>, well I would rather say <em>No. It's not our mistake</em>, because the software is proprietary in most of the case, we do not even know what the software does in the background and there is no way to know what else the software does when the source code is not available. Moreover, you and I didn't ask for such a feature and also we don't have the freedom to modify the source code under a proprietary regime. That is why we as a movement (Free Software movement) call for the adoption and usagae of <a href="https://www.gnu.org/philosophy/free-sw.en.html">Free(dom) Software</a></p>
 <blockquote>
@@ -97,12 +96,21 @@
   </div>
   <div class="article_meta">
     <p>Posted on: Sun 01 January 2017</p>
-    <p>Category: <a href="https://prasannavenkadesh.github.io/blog/category/free-software.html">Free Software</a>
+    <p>Category: <a href="http://blog.purambokku.me/category/free-software.html">Free Software</a>
  &ndash; Tags:
-      <a href="https://prasannavenkadesh.github.io/blog/tag/privacy.html">privacy</a>,      <a href="https://prasannavenkadesh.github.io/blog/tag/code.html">code</a>,      <a href="https://prasannavenkadesh.github.io/blog/tag/free-software.html">free software</a>,      <a href="https://prasannavenkadesh.github.io/blog/tag/tech.html">tech</a>,      <a href="https://prasannavenkadesh.github.io/blog/tag/web.html">web</a>    </p>
+      <a href="http://blog.purambokku.me/tag/privacy.html">privacy</a>,      <a href="http://blog.purambokku.me/tag/code.html">code</a>,      <a href="http://blog.purambokku.me/tag/free-software.html">free software</a>,      <a href="http://blog.purambokku.me/tag/tech.html">tech</a>,      <a href="http://blog.purambokku.me/tag/web.html">web</a>    </p>
   </div>
 
 
+<script data-isso="/isso"
+        data-isso-max-comments-top="10"
+        data-isso-max-comments-nested="5"
+        data-isso-reveal-on-click="5"
+src="/isso/js/embed.min.js"></script>
+<section class="comments" id="comments">
+    <h3 class="panel">Your Comments</h3>
+    <section id="isso-thread"></section>
+</section>
 </article>
 
 

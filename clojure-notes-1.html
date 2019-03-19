@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="http://blog.purambokku.me/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="stylesheet" type="text/css" href="http://blog.purambokku.me/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="http://blog.purambokku.me/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Prasanna Venkadesh">
+  <meta name="description" content="Posts and writings by Prasanna Venkadesh">
+
+  <link href="http://blog.purambokku.me/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Towards Freedom Atom" />
+
+<meta name="keywords" content="books, code">
+
+  <title>
+    Towards Freedom
+&ndash; Clojure Notes 1  </title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="http://blog.purambokku.me">
+        <img src="http://blog.purambokku.me/images/pic.png" alt="logo">
+      </a>
+      <h3><a href="http://blog.purambokku.me">Prasanna Venkadesh</a></h3>
+      <p><a href="https://www.gnu.org/philosophy/free-sw.en.html" target="_blank">Free Software</a> + Free Culture = Free Society</p>
+      <ul>
+        <li><a href="https://prasannavenkadesh.github.io" target="_blank">About</a></li>
+        <li><a href="https://mastodon.social/users/prashere" target="_blank">Social</a></li>
+        <li><a href="https://gitlab.com/prashere" target="_blank">Code</a></li>
+        <li><a href="http://maattru.com/author/prashere/" target="_blank">மாற்று</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="http://blog.purambokku.me">Index</a> &brvbar; <a href="http://blog.purambokku.me/archives.html">Archives</a>
+      &brvbar; <a href="http://blog.purambokku.me/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="http://blog.purambokku.me/clojure-notes-1.html">Clojure Notes 1</a></h3>
+  </div>
+  <div class="article_text">
+    <p>Started learning another general purpose programming language called <strong><a href="https://clojure.org/">Clojure</a></strong> which speaks <strong>lisp</strong> dialect and runs on top of <strong>JVM</strong>. Thanks to Kamalavelan for creating an interest for me to learn clojure and particularly the book titled, <strong><a href="https://nostarch.com/clojure">Clojure For The Brave and True</a></strong> by David Higginbotham is very enjoyable.
+https://nostarch.com/clojure
+As a matter of taking notes of what I learn from the book, I share the notes here chapter wise.</p>
+<h3>Chapter 1</h3>
+<ol>
+<li>Installing Clojure.</li>
+<li>Installing <a href="https://leiningen.org/">leiningen</a>.</li>
+<li><code>lein new app &lt;folder-name&gt;</code></li>
+<li><code>()</code> based syntax, namespaces, -main function, <code>println</code></li>
+<li><code>lein run</code> =&gt; to build and see the output</li>
+<li><code>lein uberjar</code> =&gt; to build standalone jars</li>
+<li><code>lein repl</code> =&gt; to start a repl</li>
+</ol>
+<h3>Chapter 2 - Emacs</h3>
+<ol>
+<li>I have largely ignored emacs tutorial.</li>
+<li>But installed gnu emacs.</li>
+<li>Downloaded clojure configuration for emacs</li>
+<li>Downloaded and installed <a href="https://sekao.net/nightcode/">Nightcode IDE</a> for clojure and I prefer it for now.</li>
+<li>Also using lein repl to practice.</li>
+</ol>
+<h3>Chapter 3 - Language Fundamentals</h3>
+<ol>
+<li>started using NightCode with REPL.</li>
+<li><code>FORMS</code> are expressions that clojure evaluates to produce a value.</li>
+<li>ex: <code>1 "a string" ["a" "string" "vector]</code></li>
+<li>basic syntax: <code>(operator operand1 operand2 ... operandn)</code></li>
+<li>the above syntax is unifrom throughout LISP dialect.</li>
+<li><code>(str "string1" "string2)</code> =&gt; string1string2 =&gt; concatenates strings.</li>
+<li>control flow =&gt; if do when</li>
+<li>
+<p><code>(if boolean-form then-form optional-else-form)</code></p>
+<div class="highlight"><pre><span></span>(if true
+&quot;Sucess&quot;
+&quot;Failure&quot;)
+</pre></div>
+
+
+</li>
+<li>
+<p>note that if..else can execute only one form. to overcome this we can use do.</p>
+<div class="highlight"><pre><span></span>(if true
+    (do (println &quot;Success&quot;)
+        &quot;succesS&quot;)
+    (do (println &quot;Failure&quot;)
+        &quot;failure&quot;))
+</pre></div>
+
+
+</li>
+<li>
+<p><code>when</code> operator is like both if and do together but without else part and returns nil when the condition is false.</p>
+</li>
+<li>
+<p><code>or</code> and <code>and</code> boolean operators.</p>
+</li>
+<li><code>nil</code> represents no value in clojure.</li>
+<li>
+<p>binding value to variables are done using <strong>def</strong> keyword</p>
+<div class="highlight"><pre><span></span>(def name &quot;prasanna&quot;)
+</pre></div>
+
+
+</li>
+<li>
+<p>ratio can be directly represented in clojure. <code>1/5</code></p>
+</li>
+<li>
+<p><strong>Maps</strong> are key, value store. <strong>Hashmap</strong> and <strong>Sorted maps</strong> are present in clojure.</p>
+<div class="highlight"><pre><span></span>(def sampleMap {:first_name &quot;Prasanna&quot; :last_name &quot;Venkadesh})
+(get sampleMap :first_name)
+(sampleMap :first_name)
+(:first_name sampleMap)
+
+(def sampleHashMap (hashmap :a 1 :b 2))
+</pre></div>
+
+
+</li>
+<li>
+<p>Maps can also be nested and <code>get-in</code> function is used to retreive nested map values.</p>
+<div class="highlight"><pre><span></span>(get-in {:a 0 :b {:c &quot;1}} [:b :c])
+</pre></div>
+
+
+</li>
+<li>
+<p><strong>Vectors</strong> are like 0 indexed arrays and can be heterogenous.</p>
+<div class="highlight"><pre><span></span><span class="k">[1 2 3 4]</span>
+<span class="na">(def vecData [1 2 3 4])</span>
+<span class="na">(get vecData 2)</span>
+<span class="na">(conj vecData 10)</span>
+</pre></div>
+
+
+</li>
+<li>
+<p><code>conj</code> function is used to append value at to vector and <code>vector</code> function is used to create a new vector with supplied values.</p>
+<div class="highlight"><pre><span></span>(vector &quot;test&quot; 1 &quot;testing&quot;)
+</pre></div>
+
+
+</li>
+<li>
+<p><strong>list</strong> in clojure is similar to vector, but <code>get</code> function will not work with list. <code>nth</code> function has to be used instead.</p>
+<div class="highlight"><pre><span></span>&#39;(1 2 3 4)
+(list 1 2 3 4)
+(def listData &#39;(1 2 3 4))
+(def listData (list 1 2 3 4))
+(nth listData 0)
+</pre></div>
+
+
+</li>
+<li>
+<p><code>conj</code> function with list will add elements to the <strong>beginning</strong> of the list.</p>
+<div class="highlight"><pre><span></span>(conj listData 10)
+</pre></div>
+
+
+</li>
+<li>
+<p>Fetching elements from list using <code>nth</code> function will be slower than <code>get</code> in vector. When to use what depends on whether we want to add elements to end or beginning of the data structure.</p>
+</li>
+<li>
+<p>Clojure supports <strong>higher-order functions</strong>, i.e a function that can take another function as argument or can return another function. Programming languages with higher-order functions are said to support <strong>first class functions</strong> because we can treat functions as values in the same way we treat other data types like number, string, etc., </p>
+</li>
+<li>
+<p><strong>inc</strong> function can increment a numeric value. <strong>map</strong> function can operate over a collection and can return a list as result.</p>
+<div class="highlight"><pre><span></span>(inc 20)
+(map inc [1 2 3 4])
+</pre></div>
+
+
+</li>
+<li>
+<p><strong>[]</strong> is used to pass arguments to functions. function parameters can be used to overload and can be used for multiple purposes. Those are called <strong>Arity</strong>.</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">myFunction</span>
+  <span class="p">([]</span>
+    <span class="p">(</span><span class="nf">println</span> <span class="s">&quot;no arguments supplied&quot;</span><span class="p">))</span>
+  <span class="p">([</span><span class="nv">x</span>, <span class="nv">y</span><span class="p">])</span>
+    <span class="p">(</span><span class="nf">println</span> <span class="s">&quot;two arguments supplied&quot;</span><span class="p">))</span>
+<span class="p">)</span>
+</pre></div>
+
+
+</li>
+<li>
+<p><code>&amp;</code> ampresand is used to denote rest of parameters. Like *args in <code>python</code></p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">myFunction</span>
+  <span class="p">[</span><span class="nv">name</span><span class="p">]</span>
+</pre></div>
+
+
+<p>(str "Hi. I am " name))</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">myFunc</span>
+  <span class="p">[</span><span class="o">&amp;</span> <span class="nv">names</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">map</span> <span class="nv">myFunc</span> <span class="nv">names</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nf">myFunc</span> <span class="s">&quot;Prasanna&quot;</span> <span class="s">&quot;Kamal&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+</li>
+<li>
+<p><strong>Anonymous Functions</strong> are functions without names. They can be defined anywhere using <code>fn</code> keyword.</p>
+<div class="highlight"><pre><span></span>(fn [arguments] function-body)
+
+((fn [x] (* x 3)) 8)
+
+(map (fn [name] (str &quot;Hi &quot; name) [&quot;Prasanna&quot; &quot;Kamal&quot;])
+</pre></div>
+
+
+</li>
+<li>
+<p>anonymous functions can also be bound to variables.</p>
+<div class="highlight"><pre><span></span>(def my-function (fn [name] (str &quot;Hi, &quot; name)))
+(my-function &quot;Prasanna&quot;)
+</pre></div>
+
+
+</li>
+<li>
+<p>There is a much more shortcut way to define anonymous functions using <code>#</code>.</p>
+<div class="highlight"><pre><span></span>#(+ % 2)
+(#(+ % 2) 8)
+(#(str &quot;Hi &quot; %) &quot;Prasanna&quot;)
+</pre></div>
+
+
+</li>
+<li>
+<p>If the anonymous function takes multiple arguments, then <code>%1 %2 ... %n</code> form can be used.</p>
+</li>
+<li>
+<p><strong>Destructuring</strong> is about binding names to values in a collection based on positions.</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">chooser</span>
+  <span class="p">[[</span><span class="nv">first-param</span><span class="p">]]</span>
+  <span class="nv">first-param</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">chooser</span> <span class="p">[</span><span class="s">&quot;Prasanna&quot;</span> <span class="s">&quot;Kamal&quot;</span><span class="p">])</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">chooser</span>
+  <span class="p">[[</span><span class="nv">name</span> <span class="nv">age</span> <span class="o">&amp;</span> <span class="nv">other</span><span class="p">]]</span>
+  <span class="p">(</span><span class="nf">println</span> <span class="p">(</span><span class="nb">str</span> <span class="s">&quot;Hi, &quot;</span> <span class="nv">name</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">println</span> <span class="p">(</span><span class="nb">str</span> <span class="s">&quot;Your age: &quot;</span> <span class="nv">age</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">prinln</span> <span class="p">(</span><span class="nb">str</span> <span class="s">&quot;Other info: &quot;</span> <span class="p">(</span><span class="nf">clojure.string/join</span> <span class="s">&quot;, &quot;</span> <span class="nv">other</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="nf">chooser</span> <span class="p">[</span><span class="s">&quot;Prasanna&quot;</span> <span class="mi">28</span> <span class="s">&quot;test@testing.org&quot;</span> <span class="s">&quot;B+&quot;</span><span class="p">])</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Clojure has <strong>closures</strong>. Yes. closures are those functions that are returned by another functions. closure by itself is a design pattern to indicate state maintanence or scope of variables. To be frank, I haven't grasped this design well yet.</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">inc-maker</span>
+  <span class="s">&quot;Create a custom incrementor&quot;</span>
+  <span class="p">[</span><span class="nv">inc-by</span><span class="p">]</span>
+  <span class="o">#</span><span class="p">(</span><span class="nf">+</span> <span class="nv">%</span> <span class="nv">inc-by</span><span class="p">))</span>
+
+<span class="p">(</span><span class="kd">def </span><span class="nv">inc3</span> <span class="p">(</span><span class="nf">inc-maker</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nf">inc3</span> <span class="mi">7</span><span class="p">)</span>
+</pre></div>
+
+
+</li>
+</ol>
+<p>End of Chapter 3. Will continue further notes in separate post.</p>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Tue 19 February 2019</p>
+    <p>Category: <a href="http://blog.purambokku.me/category/programming.html">Programming</a>
+ &ndash; Tags:
+      <a href="http://blog.purambokku.me/tag/books.html">books</a>,      <a href="http://blog.purambokku.me/tag/code.html">code</a>    </p>
+  </div>
+
+
+<script data-isso="/isso"
+        data-isso-max-comments-top="10"
+        data-isso-max-comments-nested="5"
+        data-isso-reveal-on-click="5"
+src="/isso/js/embed.min.js"></script>
+<section class="comments" id="comments">
+    <h3 class="panel">Your Comments</h3>
+    <section id="isso-thread"></section>
+</section>
+</article>
+
+
+    <div id="ending_message">
+      <p>&copy; Prasanna Venkadesh. <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons</a> Attribution ShareAlike. Theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack" target="_blank">github</a>.
+    </div>
+  </main>
+</body>
+</html>

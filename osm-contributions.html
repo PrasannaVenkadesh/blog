@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="http://blog.purambokku.me/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="stylesheet" type="text/css" href="http://blog.purambokku.me/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="http://blog.purambokku.me/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Prasanna Venkadesh">
+  <meta name="description" content="Posts and writings by Prasanna Venkadesh">
+
+  <link href="http://blog.purambokku.me/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Towards Freedom Atom" />
+
+<meta name="keywords" content="osm, mapping">
+
+  <title>
+    Towards Freedom
+&ndash; Contributions to OpenStreetMap  </title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="http://blog.purambokku.me">
+        <img src="http://blog.purambokku.me/images/pic.png" alt="logo">
+      </a>
+      <h3><a href="http://blog.purambokku.me">Prasanna Venkadesh</a></h3>
+      <p><a href="https://www.gnu.org/philosophy/free-sw.en.html" target="_blank">Free Software</a> + Free Culture = Free Society</p>
+      <ul>
+        <li><a href="https://prasannavenkadesh.github.io" target="_blank">About</a></li>
+        <li><a href="https://mastodon.social/users/prashere" target="_blank">Social</a></li>
+        <li><a href="https://gitlab.com/prashere" target="_blank">Code</a></li>
+        <li><a href="http://maattru.com/author/prashere/" target="_blank">மாற்று</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="http://blog.purambokku.me">Index</a> &brvbar; <a href="http://blog.purambokku.me/archives.html">Archives</a>
+      &brvbar; <a href="http://blog.purambokku.me/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="http://blog.purambokku.me/osm-contributions.html">Contributions to OpenStreetMap</a></h3>
+  </div>
+  <div class="article_text">
+    <p>I wrote this post to document my contributions to OpenStreetMap and to enrich the ecosystem.</p>
+<p><a href="https://openstreetmap.org">OpenStreetMap</a> (OSM) is the map built by the people, for the people and of the people. In other words, it is the democratic process of creating the map of the earth together. Simultaneously anyone can also download all the geographical inforamtion from OpenStreetMap and use it for their own purposes. If Wikipedia is the encyclopedia commons, then OSM is the commons for geographical data.</p>
+<p>I joined OpenStreetMap by the end of 2011 but made my first drawing in OSM only by the mid of 2012. You can see my participation <a href="https://hdyc.neis-one.org/?Prashere">here</a>. There is a graph titled <strong>Amount of mapping days per year</strong> in that link, if you observe that graph you can find that it was only in 2017 I took a serious participation in contributing to OSM. I did not even care about contributing to OSM during 2015 &amp; 2016.</p>
+<p><img alt="contribution graph" src="images/contribution-graph.png"></p>
+<p>When I joined OSM, I was carried away by the idea of Open Source and the Linux ecosystem. I don't know anything about the licenses or GNU project or Free Software itself. Over the years I was exposed to the idea of Free Software, it's principles and philosophy. This is where everything started to change. It took 4 years for me to understand the idea of knowledge commons (or) digital commons. By the end of 2017, at <a href="https://fsftn.org">FSFTN</a> we organized a OSM mapathon for celebrating <a href="http://osmgeoweek.org/">#osmgeoweek</a>. This is when my contribution to OSM also got serious. That is why in the above graph, there is a rise in my contribution during the period of 2017-18.</p>
+<p>As a part of the week long mapathon, I built a <a href="https://gitlab.com/prashere/osm-leaderbooard/">web based leaderboard software in python</a> that will rank the participants based on the number of edits they made during that period. Nearly 50 participants from Pondicherry and Tamilnadu took part in this mapathon and the <a href="https://www.facebook.com/media/set/?set=a.1902578996436104&amp;type=1&amp;l=375930f529">top 10 contributors were honoured by FSFTN</a> for their contribution to the commons.</p>
+<p><img alt="screenshot of leaderboard" src="images/leaderboard.png"></p>
+<p>I released this <a href="https://gitlab.com/prashere/osm-leaderbooard/">leaderboard software</a> under a Free Software license, so that anyone around the world could make use of this software to run a local mapathon in their place. Sooner, <a href="https://swecha.org">Swecha</a>, a sister organization of FSFTN from Andhra Pradesh and Telengana forked the leaderboard program and started to remix for their purpose. The forked version can be found <a href="https://code.swecha.org/sripathroy/osm-leaderboard">here</a>. It was moments like these that motivates people like me to write program and release them under FOSS license. The gratification that I receive when I create a socially necessary or useful program for myself and others is all that matters.</p>
+<p>By early 2018, some of us at Pondicherry got interested into <a href="http://www.rosalux-nyc.org/platform-cooperativism-2/">Platform Cooperativism</a> by <strong>Trebor Scholz</strong>, especially building an open and alternative platform for Uber and Ola. This means not depending on google maps or any proprietary maps as well. Obviously without doubt, our choice would be to use OSM (in fact Uber relies on OSM data for routing I suppose). We wanted to prototype it and for that we chose a OpenGL based android library called <a href="https://github.com/mapsforge/vtm">VTM</a> Vector Tile Maps for rendering the map. We took the map raw data from OSM and converted into Mapsforge Binary format using a tool called Osmosis and for routing we used a android library called graphhopper. The raw data from OSM would be in XML format and this needs to be converted into respective formats for both rendering and routing. I came up with a <a href="https://gitlab.com/coopon/uauto/backend/map-preparation">shell script</a> that can automate all this process of downloading the raw data from OSM and converting them into respective formats.</p>
+<p>But the application that we are attempting to build itself is far from complete.</p>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/tm-it-6-h68?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+<p>Beyond these I took 2 sessions on getting started with OpenStreetMap and drawing roads, buildings and point of interests at a local meetup organized by FSHM Puducherry. One of the session is recorded and uploaded to youtube.</p>
+<p>So far my contributions to OSM include <strong>mapping</strong>, <strong>osm-leaderboard</strong>, <strong>map preparation process</strong> and <strong>tutorial</strong>.</p>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Sat 06 October 2018</p>
+    <p>Category: <a href="http://blog.purambokku.me/category/mapping.html">Mapping</a>
+ &ndash; Tags:
+      <a href="http://blog.purambokku.me/tag/osm.html">osm</a>,      <a href="http://blog.purambokku.me/tag/mapping.html">mapping</a>    </p>
+  </div>
+
+
+<script data-isso="/isso"
+        data-isso-max-comments-top="10"
+        data-isso-max-comments-nested="5"
+        data-isso-reveal-on-click="5"
+src="/isso/js/embed.min.js"></script>
+<section class="comments" id="comments">
+    <h3 class="panel">Your Comments</h3>
+    <section id="isso-thread"></section>
+</section>
+</article>
+
+
+    <div id="ending_message">
+      <p>&copy; Prasanna Venkadesh. <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons</a> Attribution ShareAlike. Theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack" target="_blank">github</a>.
+    </div>
+  </main>
+</body>
+</html>
