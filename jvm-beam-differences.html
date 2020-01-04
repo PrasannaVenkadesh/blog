@@ -17,11 +17,11 @@
 
   <link href="https://prasannavenkadesh.github.io/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Towards Freedom Atom" />
 
-<link href="https://prasannavenkadesh.github.io/blog/feeds/programming.atom.xml" type="application/atom+xml" rel="alternate" title="Towards Freedom Programming Category Atom" />
+<meta name="keywords" content="tech, design">
 
   <title>
     Towards Freedom
-&ndash; Category: Programming  </title>
+&ndash; JVM vs BEAM Architecture Differences  </title>
 
 </head>
 
@@ -47,8 +47,6 @@
       <p>
       <a href="https://prasannavenkadesh.github.io/blog">Index</a> &brvbar; <a href="https://prasannavenkadesh.github.io/blog/archives.html">Archives</a>
       &brvbar; <a href="https://prasannavenkadesh.github.io/blog/feeds/all.atom.xml">Atom</a>
-&gt; Category: Programming
-&brvbar; <a href="https://prasannavenkadesh.github.io/blog/feeds/programming.atom.xml">Atom</a>
       </p>
     </header>
 
@@ -59,55 +57,49 @@
   <div class="article_text">
     <ul>
 <li>Recently read <a href="http://ds.cs.ut.ee/courses/course-files/To303nis%20Pool%20.pdf">a study</a> comparing the design of widely used Oracle's implementation of JVM (aka. HotSpot VM) and Erricson's implementation Erlang VM (BEAM) with respect to concurrency and parallelism. This study was published in May 2015.</li>
-<li>This is not about comparing two languages (i.e java vs erlang/elixir) or …</li></ul>
+<li>This is not about comparing two languages (i.e java vs erlang/elixir) or programming paradigms (Object Oriented vs Functional). This is more about the design of the virtual machine themselves which ultimately is responsibile for interpreting the bytecode into machine level instructions and runs the applications.</li>
+</ul>
+<hr>
+<h3>JVM</h3>
+<ul>
+<li>JVM's internal representation has a stack, shared heap and garbage collector.</li>
+<li>The garbage collector has two sections within it to identify objects that die too young and those live long.</li>
+<li>There will be a global pause (all world pause) to clean up garbage values.</li>
+<li>The responsibility of avoiding deadlock for critical sections for concurrency falls to the programmer due to underlying shared heap (shared state).</li>
+<li>Akka framework brings the Actor model to Java applications, but underlying shared heap means block in one component means entire application thread blocks.</li>
+<li>VM Threads are one-to-one mapping with os level threads. Therefore scheduling is relied on os level schedulers.</li>
+<li>JIT Compiliation strategy is a strength.</li>
+<li>Irrespective of it's implementation, JVM also employs a lot of optimization strategies to garbage collection, scheduling, etc., that counters the design limitations.</li>
+</ul>
+<h3>BEAM</h3>
+<ul>
+<li>BEAM is implemented with Actor Model. With processos as Actors and Message passing among processes.</li>
+<li>Each process has it's own stack and heap. No global pause for garbage collecting, since each processes has it's own memory scope isolated from others.</li>
+<li>Has number of schedulers as per the cpu core and schedulers can load-balance based on strategies.</li>
+<li>VM threads are many-to-many mapping with os level threads therefore no need to entirely depend on os level schedulers.</li>
+<li>There are no JIT compilation strategy with BEAM. A project called BEAMJIT was started some years back, but it's not complete.</li>
+</ul>
+<p>Now, let us not jump to conclusions of which is better without matching them against the context and problem at hand. Here is <a href="https://news.ycombinator.com/item?id=10027884">a discussion thread in Hacker News</a> on the same topic.</p>
   </div>
-</article>
-<hr />
-<article>
-  <div class="article_title">
-    <h3><a href="https://prasannavenkadesh.github.io/blog/clojure-notes-1.html">Clojure Notes 1</a></h3>
+  <div class="article_meta">
+    <p>Posted on: Fri 03 January 2020</p>
+    <p>Category: <a href="https://prasannavenkadesh.github.io/blog/category/programming.html">Programming</a>
+ &ndash; Tags:
+      <a href="https://prasannavenkadesh.github.io/blog/tag/tech.html">tech</a>,      <a href="https://prasannavenkadesh.github.io/blog/tag/design.html">design</a>    </p>
   </div>
-  <div class="article_text">
-    <p>Started learning another general purpose programming language called <strong><a href="https://clojure.org/">Clojure</a></strong> which speaks <strong>lisp</strong> dialect and runs on top of <strong>JVM</strong>. Thanks to Kamalavelan for creating an interest for me to learn clojure and particularly the book titled, <strong><a href="https://nostarch.com/clojure">Clojure For The Brave and True</a></strong> by David Higginbotham is very enjoyable.
-https://nostarch …</p>
-  </div>
-</article>
-<hr />
-<article>
-  <div class="article_title">
-    <h3><a href="https://prasannavenkadesh.github.io/blog/offline-first-coops-map.html">Learnings From Building Offline First Web App</a></h3>
-  </div>
-  <div class="article_text">
-    <p>I wrote a web app recently. The purpose of the web app is to map the <strong>cooperatives</strong> around us. I'll speak about the intentions behind it in another post, for now let us focus on the <strong>Offline First</strong>
-approach of this app. The application is hosted here <a href="https://prashere.gitlab.io/coop-demo">live</a>.</p>
-<h3>Initial Version …</h3>
-  </div>
-</article>
-<hr />
-<article>
-  <div class="article_title">
-    <h3><a href="https://prasannavenkadesh.github.io/blog/working-on-p2p-file-url-sharing-app.html">P2P File & URL Sharing App on LAN</a></h3>
-  </div>
-  <div class="article_text">
-    <p>For the past 1 week, I have been working on a peer-to-peer File and URL sharing app and I have named it as <strong>Transceiver</strong> (the ability to transmit and receive data). I would like to log the progress of what I have done so far.</p>
-<p>There are various reasons, why …</p>
-  </div>
-</article>
-<hr />
-<article>
-  <div class="article_title">
-    <h3><a href="https://prasannavenkadesh.github.io/blog/go-cross-compilation.html">Cross Compilation in Go</a></h3>
-  </div>
-  <div class="article_text">
-    <p>Recently I have started to explore the Go programming language or golang in short. Go is a compiled language which can produce standalone binaries for the go programs, which means the receiver of this binary need not have go compiler and the libraries that this program is dependent installed on …</p>
-  </div>
+
+
+<script data-isso="/isso"
+        data-isso-max-comments-top="10"
+        data-isso-max-comments-nested="5"
+        data-isso-reveal-on-click="5"
+src="/isso/js/embed.min.js"></script>
+<section class="comments" id="comments">
+    <h3 class="panel">Your Comments</h3>
+    <section id="isso-thread"></section>
+</section>
 </article>
 
-<footer>
-<div id="paginator">
-
-</div>
-</footer>
 
     <div id="ending_message">
       <p>&copy; Prasanna Venkadesh. <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons</a> Attribution ShareAlike. Theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack" target="_blank">github</a>.
