@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Towards Freedom</title><link href="https://prasannavenkadesh.github.io/blog/" rel="alternate"></link><link href="https://prasannavenkadesh.github.io/blog/feeds/all.atom.xml" rel="self"></link><id>https://prasannavenkadesh.github.io/blog/</id><updated>2020-01-03T00:00:00+05:30</updated><entry><title>JVM vs BEAM Architecture Differences</title><link href="https://prasannavenkadesh.github.io/blog/jvm-beam-differences.html" rel="alternate"></link><published>2020-01-03T00:00:00+05:30</published><updated>2020-01-03T00:00:00+05:30</updated><author><name>Prasanna Venkadesh</name></author><id>tag:prasannavenkadesh.github.io,2020-01-03:/blog/jvm-beam-differences.html</id><summary type="html">&lt;ul&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Towards Freedom</title><link href="https://prasannavenkadesh.github.io/blog/" rel="alternate"></link><link href="https://prasannavenkadesh.github.io/blog/feeds/all.atom.xml" rel="self"></link><id>https://prasannavenkadesh.github.io/blog/</id><updated>2020-04-11T00:00:00+05:30</updated><entry><title>Metaprogramming Elixir Notes - 1</title><link href="https://prasannavenkadesh.github.io/blog/meta-elixir-notes-1.html" rel="alternate"></link><published>2020-04-11T00:00:00+05:30</published><updated>2020-04-11T00:00:00+05:30</updated><author><name>Prasanna Venkadesh</name></author><id>tag:prasannavenkadesh.github.io,2020-04-11:/blog/meta-elixir-notes-1.html</id><summary type="html">&lt;p&gt;For the past 6 months, I have been exploring Elixir language and it's ecosystem. Elixir is a dynamic functional language. It compiles to bytecode to run on BEAM (Erlang's Virtual Machine) similar to how Java code is compiled to bytecode to run on JVM. There are fundamental &lt;a href="/jvm-beam-differences.html"&gt;differences between BEAM …&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;For the past 6 months, I have been exploring Elixir language and it's ecosystem. Elixir is a dynamic functional language. It compiles to bytecode to run on BEAM (Erlang's Virtual Machine) similar to how Java code is compiled to bytecode to run on JVM. There are fundamental &lt;a href="/jvm-beam-differences.html"&gt;differences between BEAM and JVM&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Elixir is relatively a new language compared with Java and Python. Development of this language started in 2012 and as of writing it we have Elixir v1.10. Almost all functional languages are declarative in style. This is the first time, I am learning to write programs in declarative style rather than imperative style even though Python also has some declarative and functional approach here and there but it really doesn't enforce a particular style.&lt;/p&gt;
+&lt;p&gt;That said, the word &lt;strong&gt;Metaprogramming&lt;/strong&gt; has been fascinating to me since I came across the phrase &lt;strong&gt;code that writes code&lt;/strong&gt;. Learning to program with Elixir and learning all other new terminologies of Erlang ecosystem so far has been very pleasant for me. Thanks to Sasa Juric's book. That said, I am also learning the only web framework as of today available for Elixir, &lt;a href="https://www.phoenixframework.org/"&gt;Phoenix&lt;/a&gt;. The author of Phoenix had leveraged Elixir's metaprogramming abilities using macros and has also published a book titled &lt;a href="https://pragprog.com/book/cmelixir/metaprogramming-elixir"&gt;Metaprogramming Elixir&lt;/a&gt;. I have started to read this book too and this blog post is the notes that I took for Chapter 1 of the book.&lt;/p&gt;
+&lt;h3&gt;Notes 1&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Metaprogramming allows us to do more by writing less code.&lt;/li&gt;
+&lt;li&gt;Macros facilitate metaprogramming in Elixir.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Abstract Syntax Tree (AST)&lt;/strong&gt; is how compilers represent the code we write before processing them and converting to bytecode.&lt;/li&gt;
+&lt;li&gt;Macros are language feature that allows us to write code that writes code.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;quote&lt;/code&gt; is a macro in Elixir that will give us the AST representation of our Elixir code using Elixir's native data structure called tuple {}&lt;/li&gt;
+&lt;li&gt;Any expression in Elixir, represented in AST will be a tuple with three units. &lt;code&gt;{:atom, [context], [arguments]}&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;:atom&lt;/code&gt; will be mostly function names, &lt;code&gt;[context]&lt;/code&gt; is a list of contexts required to perform the operation, last one is list of arguments passed to the function.&lt;/li&gt;
+&lt;li&gt;Macro's in Elixir taskes AST representation as input and returns either the modified or unmodified version of the AST thus allows us to inject code into code.&lt;/li&gt;
+&lt;li&gt;Metaprogramming turns us from being a &lt;strong&gt;language consumer to language creator&lt;/strong&gt;, because Macro's allows us to extend the language.&lt;/li&gt;
+&lt;li&gt;Metaprogramming in Elixir asks us to throw away the notion of rigid keywords &amp;amp; opaque langugage internals.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;unquote&lt;/code&gt; is a macro used within &lt;code&gt;quote&lt;/code&gt; block that allows us to perform the inverse operation of quote that is to inject the expressions into the AST. They cannot be used outside &lt;code&gt;quote&lt;/code&gt; macro.&lt;/li&gt;
+&lt;li&gt;Chris McCord, the author of Phoenix framework and this book gives us 2 cautions or rules while trying to learn Metaprogramming.&lt;/li&gt;
+&lt;li&gt;First, &lt;strong&gt;Don't Write Macros&lt;/strong&gt;. When taken too far in depth, macro's can make programs difficult to debug and reason about. Think about the movie Inception. Which dream are they in?&lt;/li&gt;
+&lt;li&gt;Second, don't let the first rule demotivate you to learn it. Approach and Explore Macros and Metaprogramming with open and curious mind.&lt;/li&gt;
+&lt;li&gt;One can think &lt;code&gt;quote&lt;/code&gt; is like enclosing a variable with double quotes and &lt;code&gt;unquote&lt;/code&gt; as, removing it thus depicting the value.&lt;/li&gt;
+&lt;li&gt;Ex: age = 2, &lt;code&gt;quote&lt;/code&gt; means, "age", while &lt;code&gt;unquote&lt;/code&gt; means age&lt;/li&gt;
+&lt;li&gt;Elixir also provides us a module called Macro to playaround with macros within the language. &lt;code&gt;Macro.expand&lt;/code&gt; and &lt;code&gt;Macro.expand_once&lt;/code&gt; can be used to explore how compiler expands the Macro's at compile time.&lt;/li&gt;
+&lt;li&gt;Code can be injected in two contexts. One is Macro's definition context (outside quote) and the other is the macro's caller invocation context (within quote).&lt;/li&gt;
+&lt;li&gt;Elixir also provides a concept of &lt;strong&gt;Hygine&lt;/strong&gt;. i.e keeping pollution-free contexts. By default, elixir prevents access to caller scope variable inside the macros, but if needed, they can be polluted explicitly by using &lt;code&gt;var!(variable_name)&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;It is to be noted that most of the language constructs of Elixir itself is written as macros with a small set of core native types.&lt;/li&gt;
+&lt;li&gt;Macros also allows us to create Domain Specific language terminologies.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Example Macro &amp;amp; Usage:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;defmodule MyMacro do
+  defmacro debug({:+, _context, [lhs, rhs]}) do
+    IO.puts &amp;quot;Macro definition Context&amp;quot;
+    quote do
+        IO.puts &amp;quot;Caller&amp;#39;s context&amp;quot;
+        lhs = unquote(lhs)
+        rhs = unquote(rhs)
+        result = lhs + rhs
+        IO.puts &amp;quot;#{lhs} plus #{rhs} equals to #{result}&amp;quot;
+        result
+    end
+  end
+end
+
+iex&amp;gt;require MyMacro
+iex&amp;gt;MyMacro.debug(2 + 3)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Notes for Chapter 1 ends here. Will share notes for Chapter 2 when I finish it.&lt;/p&gt;</content><category term="elixir"></category><category term="code"></category></entry><entry><title>JVM vs BEAM Architecture Differences</title><link href="https://prasannavenkadesh.github.io/blog/jvm-beam-differences.html" rel="alternate"></link><published>2020-01-03T00:00:00+05:30</published><updated>2020-01-03T00:00:00+05:30</updated><author><name>Prasanna Venkadesh</name></author><id>tag:prasannavenkadesh.github.io,2020-01-03:/blog/jvm-beam-differences.html</id><summary type="html">&lt;ul&gt;
 &lt;li&gt;Recently read &lt;a href="http://ds.cs.ut.ee/courses/course-files/To303nis%20Pool%20.pdf"&gt;a study&lt;/a&gt; comparing the design of widely used Oracle's implementation of JVM (aka. HotSpot VM) and Erricson's implementation Erlang VM (BEAM) with respect to concurrency and parallelism. This study was published in May 2015.&lt;/li&gt;
 &lt;li&gt;This is not about comparing two languages (i.e java vs erlang/elixir) or …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;ul&gt;
 &lt;li&gt;Recently read &lt;a href="http://ds.cs.ut.ee/courses/course-files/To303nis%20Pool%20.pdf"&gt;a study&lt;/a&gt; comparing the design of widely used Oracle's implementation of JVM (aka. HotSpot VM) and Erricson's implementation Erlang VM (BEAM) with respect to concurrency and parallelism. This study was published in May 2015.&lt;/li&gt;

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="stylesheet" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Prasanna Venkadesh">
+  <meta name="description" content="Posts and writings by Prasanna Venkadesh">
+
+  <link href="https://prasannavenkadesh.github.io/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Towards Freedom Atom" />
+
+<meta name="keywords" content="elixir, code">
+
+  <title>
+    Towards Freedom
+&ndash; Metaprogramming Elixir Notes - 1  </title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://prasannavenkadesh.github.io/blog">
+        <img src="https://prasannavenkadesh.github.io/blog/images/pic.png" alt="logo">
+      </a>
+      <h3><a href="https://prasannavenkadesh.github.io/blog">Prasanna Venkadesh</a></h3>
+      <p><a href="https://www.gnu.org/philosophy/free-sw.en.html" target="_blank">Free Software</a> + Free Culture = Free Society</p>
+      <ul>
+        <li><a href="https://prasannavenkadesh.github.io" target="_blank">About</a></li>
+        <li><a href="https://mastodon.social/users/prashere" target="_blank">Social</a></li>
+        <li><a href="https://gitlab.com/prashere" target="_blank">Code</a></li>
+        <li><a href="http://maattru.com/author/prashere/" target="_blank">மாற்று</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://prasannavenkadesh.github.io/blog">Index</a> &brvbar; <a href="https://prasannavenkadesh.github.io/blog/archives.html">Archives</a>
+      &brvbar; <a href="https://prasannavenkadesh.github.io/blog/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h3><a href="https://prasannavenkadesh.github.io/blog/meta-elixir-notes-1.html">Metaprogramming Elixir Notes - 1</a></h3>
+  </div>
+  <div class="article_text">
+    <p>For the past 6 months, I have been exploring Elixir language and it's ecosystem. Elixir is a dynamic functional language. It compiles to bytecode to run on BEAM (Erlang's Virtual Machine) similar to how Java code is compiled to bytecode to run on JVM. There are fundamental <a href="/jvm-beam-differences.html">differences between BEAM and JVM</a>.</p>
+<p>Elixir is relatively a new language compared with Java and Python. Development of this language started in 2012 and as of writing it we have Elixir v1.10. Almost all functional languages are declarative in style. This is the first time, I am learning to write programs in declarative style rather than imperative style even though Python also has some declarative and functional approach here and there but it really doesn't enforce a particular style.</p>
+<p>That said, the word <strong>Metaprogramming</strong> has been fascinating to me since I came across the phrase <strong>code that writes code</strong>. Learning to program with Elixir and learning all other new terminologies of Erlang ecosystem so far has been very pleasant for me. Thanks to Sasa Juric's book. That said, I am also learning the only web framework as of today available for Elixir, <a href="https://www.phoenixframework.org/">Phoenix</a>. The author of Phoenix had leveraged Elixir's metaprogramming abilities using macros and has also published a book titled <a href="https://pragprog.com/book/cmelixir/metaprogramming-elixir">Metaprogramming Elixir</a>. I have started to read this book too and this blog post is the notes that I took for Chapter 1 of the book.</p>
+<h3>Notes 1</h3>
+<ol>
+<li>Metaprogramming allows us to do more by writing less code.</li>
+<li>Macros facilitate metaprogramming in Elixir.</li>
+<li><strong>Abstract Syntax Tree (AST)</strong> is how compilers represent the code we write before processing them and converting to bytecode.</li>
+<li>Macros are language feature that allows us to write code that writes code.</li>
+<li><code>quote</code> is a macro in Elixir that will give us the AST representation of our Elixir code using Elixir's native data structure called tuple {}</li>
+<li>Any expression in Elixir, represented in AST will be a tuple with three units. <code>{:atom, [context], [arguments]}</code></li>
+<li><code>:atom</code> will be mostly function names, <code>[context]</code> is a list of contexts required to perform the operation, last one is list of arguments passed to the function.</li>
+<li>Macro's in Elixir taskes AST representation as input and returns either the modified or unmodified version of the AST thus allows us to inject code into code.</li>
+<li>Metaprogramming turns us from being a <strong>language consumer to language creator</strong>, because Macro's allows us to extend the language.</li>
+<li>Metaprogramming in Elixir asks us to throw away the notion of rigid keywords &amp; opaque langugage internals.</li>
+<li><code>unquote</code> is a macro used within <code>quote</code> block that allows us to perform the inverse operation of quote that is to inject the expressions into the AST. They cannot be used outside <code>quote</code> macro.</li>
+<li>Chris McCord, the author of Phoenix framework and this book gives us 2 cautions or rules while trying to learn Metaprogramming.</li>
+<li>First, <strong>Don't Write Macros</strong>. When taken too far in depth, macro's can make programs difficult to debug and reason about. Think about the movie Inception. Which dream are they in?</li>
+<li>Second, don't let the first rule demotivate you to learn it. Approach and Explore Macros and Metaprogramming with open and curious mind.</li>
+<li>One can think <code>quote</code> is like enclosing a variable with double quotes and <code>unquote</code> as, removing it thus depicting the value.</li>
+<li>Ex: age = 2, <code>quote</code> means, "age", while <code>unquote</code> means age</li>
+<li>Elixir also provides us a module called Macro to playaround with macros within the language. <code>Macro.expand</code> and <code>Macro.expand_once</code> can be used to explore how compiler expands the Macro's at compile time.</li>
+<li>Code can be injected in two contexts. One is Macro's definition context (outside quote) and the other is the macro's caller invocation context (within quote).</li>
+<li>Elixir also provides a concept of <strong>Hygine</strong>. i.e keeping pollution-free contexts. By default, elixir prevents access to caller scope variable inside the macros, but if needed, they can be polluted explicitly by using <code>var!(variable_name)</code>.</li>
+<li>It is to be noted that most of the language constructs of Elixir itself is written as macros with a small set of core native types.</li>
+<li>Macros also allows us to create Domain Specific language terminologies.</li>
+</ol>
+<p>Example Macro &amp; Usage:</p>
+<div class="highlight"><pre><span></span>defmodule MyMacro do
+  defmacro debug({:+, _context, [lhs, rhs]}) do
+    IO.puts &quot;Macro definition Context&quot;
+    quote do
+        IO.puts &quot;Caller&#39;s context&quot;
+        lhs = unquote(lhs)
+        rhs = unquote(rhs)
+        result = lhs + rhs
+        IO.puts &quot;#{lhs} plus #{rhs} equals to #{result}&quot;
+        result
+    end
+  end
+end
+
+iex&gt;require MyMacro
+iex&gt;MyMacro.debug(2 + 3)
+</pre></div>
+
+
+<p>Notes for Chapter 1 ends here. Will share notes for Chapter 2 when I finish it.</p>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Sat 11 April 2020</p>
+    <p>Category: <a href="https://prasannavenkadesh.github.io/blog/category/programming.html">Programming</a>
+ &ndash; Tags:
+      <a href="https://prasannavenkadesh.github.io/blog/tag/elixir.html">elixir</a>,      <a href="https://prasannavenkadesh.github.io/blog/tag/code.html">code</a>    </p>
+  </div>
+
+
+<script data-isso="/isso"
+        data-isso-max-comments-top="10"
+        data-isso-max-comments-nested="5"
+        data-isso-reveal-on-click="5"
+src="/isso/js/embed.min.js"></script>
+<section class="comments" id="comments">
+    <h3 class="panel">Your Comments</h3>
+    <section id="isso-thread"></section>
+</section>
+</article>
+
+
+    <div id="ending_message">
+      <p>&copy; Prasanna Venkadesh. <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons</a> Attribution ShareAlike. Theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack" target="_blank">github</a>.
+    </div>
+  </main>
+</body>
+</html>
