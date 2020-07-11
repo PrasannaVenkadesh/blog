@@ -25,7 +25,7 @@ for _ in network.subnet(32):
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;The maximum amount of memory used for this approach is only 0.6%, of-course the CPU usage remains at 100% since the program needs to produce the intended value from generator for such huge range.&lt;/p&gt;
+&lt;p&gt;The maximum amount of memory used for this approach is only 0.6%, of-course the CPU usage remains at 100% since the program needs to produce the intended value from generator for such huge range. We just don't hold those values anywhere in our program, hence memory is not occupied for all the generated value.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="screenshot on the amount of memory consumed by just counting the iterations and not converting to list" src="images/memory-2.png"&gt;&lt;/p&gt;
 &lt;p&gt;Even a far more better approach for calculating total number of hosts would be to use the formula which is just a quick arithmetic operation.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;2**(network_length - subnet_length) - 2
