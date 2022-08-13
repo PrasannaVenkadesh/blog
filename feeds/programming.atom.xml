@@ -19,32 +19,32 @@
 &lt;p&gt;&lt;img alt="screenshot on the amount of memory consumed by converting to list" src="images/memory-1.png"&gt;&lt;/p&gt;
 &lt;p&gt;If the intention is just to calculate the total number of possible hosts for a given subnet and IP class range, then the above is memory expensive operation as it first prepares a list of all possible addresses and then counting the length of that list. This is clear from the above screenshot of the &lt;code&gt;htop&lt;/code&gt; utility which I used to measure the amount of memory the program used for doing that. 24% of memory was used to achive that and the CPU was of-course at 100% (the screenshot was taken after the list was prepared hence 0).&lt;/p&gt;
 &lt;p&gt;Instead, the following method can be used to minimize the memory usage.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;no_of_hosts = 0
-for _ in network.subnet(32):
-    no_of_hosts += 1
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;no_of_hosts&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nv"&gt;_&lt;/span&gt; &lt;span class="nv"&gt;in&lt;/span&gt; &lt;span class="nv"&gt;network&lt;/span&gt;.&lt;span class="nv"&gt;subnet&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;:
+    &lt;span class="nv"&gt;no_of_hosts&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;The maximum amount of memory used for this approach is only 0.6%, of-course the CPU usage remains at 100% since the program needs to produce the intended value from generator for such huge range. We just don't hold those values anywhere in our program, hence memory is not occupied for all the generated value.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="screenshot on the amount of memory consumed by just counting the iterations and not converting to list" src="images/memory-2.png"&gt;&lt;/p&gt;
 &lt;p&gt;Even a far more better approach for calculating total number of hosts would be to use the formula which is just a quick arithmetic operation.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;2**(network_length - subnet_length) - 2
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="mf"&gt;2&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;network_length&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;subnet_length&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;2&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;This solution works if the programmers intention is just to count the number of possible hosts or length of the total values produced by the generator, else if they need to have list the list of ip addresses for other purposes, they can be consumed on the fly for a given number like how the frontend makes use of pagination to display large number of records.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;generators&lt;/code&gt; have this method called &lt;code&gt;send(arg)&lt;/code&gt; for which accepts one argument. We can make use of &lt;code&gt;for&lt;/code&gt; loop with &lt;code&gt;range&lt;/code&gt; method to get ip addresses in batches.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def get_ten_addresses(subnet_generator):
-    return [subnet.send(None) for _ in range(1, 11)]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;def&lt;/span&gt; &lt;span class="nv"&gt;get_ten_addresses&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;subnet_generator&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;:
+    &lt;span class="k"&gt;return&lt;/span&gt; [&lt;span class="nv"&gt;subnet&lt;/span&gt;.&lt;span class="k"&gt;send&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;None&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nv"&gt;_&lt;/span&gt; &lt;span class="nv"&gt;in&lt;/span&gt; &lt;span class="nv"&gt;range&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;, &lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;]
 
-subnet = network.subnet(32)
-ten_addresses = get_ten_addresses(subnet)
-next_ten_addresses = get_ten_addresses(subnet)
+&lt;span class="nv"&gt;subnet&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;network&lt;/span&gt;.&lt;span class="nv"&gt;subnet&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;
+&lt;span class="nv"&gt;ten_addresses&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;get_ten_addresses&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;subnet&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;
+&lt;span class="nv"&gt;next_ten_addresses&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;get_ten_addresses&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;subnet&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;generators know where they left and where to pick up next, so &lt;code&gt;ten_addresses&lt;/code&gt; will be a list of first 10 addresses generated by the generator and &lt;code&gt;next_ten_addresses&lt;/code&gt; will be as the name suggests is a list of next 10 addresses. How do we know if we have consumed all the elements of the generator? Generators will raise &lt;code&gt;StopIteration&lt;/code&gt; exception to denote that.&lt;/p&gt;
-&lt;p&gt;If the solution depends on the entire list of values to be available, probably we need to rethink the design to store such datasets into some other disk (or) file based containers like RDBMS and retrieve it from there.&lt;/p&gt;</content><category term="python"></category></entry><entry><title>Metaprogramming Elixir Notes - 1</title><link href="https://prasannavenkadesh.github.io/blog/meta-elixir-notes-1.html" rel="alternate"></link><published>2020-04-11T00:00:00+05:30</published><updated>2020-04-11T00:00:00+05:30</updated><author><name>Prasanna Venkadesh</name></author><id>tag:prasannavenkadesh.github.io,2020-04-11:/blog/meta-elixir-notes-1.html</id><summary type="html">&lt;p&gt;For the past 6 months, I have been exploring Elixir language and it's ecosystem. Elixir is a dynamic functional language. It compiles to bytecode to run on BEAM (Erlang's Virtual Machine) similar to how Java code is compiled to bytecode to run on JVM. There are fundamental &lt;a href="jvm-beam-differences.html"&gt;differences between BEAM …&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;For the past 6 months, I have been exploring Elixir language and it's ecosystem. Elixir is a dynamic functional language. It compiles to bytecode to run on BEAM (Erlang's Virtual Machine) similar to how Java code is compiled to bytecode to run on JVM. There are fundamental &lt;a href="jvm-beam-differences.html"&gt;differences between BEAM and JVM&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If the solution depends on the entire list of values to be available, probably we need to rethink the design to store such datasets into some other disk (or) file based containers like RDBMS and retrieve it from there.&lt;/p&gt;</content><category term="Programming"></category><category term="python"></category></entry><entry><title>Metaprogramming Elixir Notes - 1</title><link href="https://prasannavenkadesh.github.io/blog/meta-elixir-notes-1.html" rel="alternate"></link><published>2020-04-11T00:00:00+05:30</published><updated>2020-04-11T00:00:00+05:30</updated><author><name>Prasanna Venkadesh</name></author><id>tag:prasannavenkadesh.github.io,2020-04-11:/blog/meta-elixir-notes-1.html</id><summary type="html">&lt;p&gt;For the past 6 months, I have been exploring Elixir language and it's ecosystem. Elixir is a dynamic functional language. It compiles to bytecode to run on BEAM (Erlang's Virtual Machine) similar to how Java code is compiled to bytecode to run on JVM. There are fundamental &lt;a href="jvm-beam-differences.html"&gt;differences between BEAM …&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;For the past 6 months, I have been exploring Elixir language and it's ecosystem. Elixir is a dynamic functional language. It compiles to bytecode to run on BEAM (Erlang's Virtual Machine) similar to how Java code is compiled to bytecode to run on JVM. There are fundamental &lt;a href="jvm-beam-differences.html"&gt;differences between BEAM and JVM&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Elixir is relatively a new language compared with Java and Python. Development of this language started in 2012 and as of writing it we have Elixir v1.10. Almost all functional languages are declarative in style. This is the first time, I am learning to write programs in declarative style rather than imperative style even though Python also has some declarative and functional approach here and there but it really doesn't enforce a particular style.&lt;/p&gt;
 &lt;p&gt;That said, the word &lt;strong&gt;Metaprogramming&lt;/strong&gt; has been fascinating to me since I came across the phrase &lt;strong&gt;code that writes code&lt;/strong&gt;. Learning to program with Elixir and learning all other new terminologies of Erlang ecosystem so far has been very pleasant for me. Thanks to Sasa Juric's book. That said, I am also learning the only web framework as of today available for Elixir, &lt;a href="https://www.phoenixframework.org/"&gt;Phoenix&lt;/a&gt;. The author of Phoenix had leveraged Elixir's metaprogramming abilities using macros and has also published a book titled &lt;a href="https://pragprog.com/book/cmelixir/metaprogramming-elixir"&gt;Metaprogramming Elixir&lt;/a&gt;. I have started to read this book too and this blog post is the notes that I took for Chapter 1 of the book.&lt;/p&gt;
 &lt;h3&gt;Notes 1&lt;/h3&gt;
@@ -72,26 +72,26 @@ next_ten_addresses = get_ten_addresses(subnet)
 &lt;li&gt;Macros also allows us to create Domain Specific language terminologies.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Example Macro &amp;amp; Usage:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;defmodule MyMacro do
-  defmacro debug({:+, _context, [lhs, rhs]}) do
-    IO.puts &amp;quot;Macro definition Context&amp;quot;
-    quote do
-        IO.puts &amp;quot;Caller&amp;#39;s context&amp;quot;
-        lhs = unquote(lhs)
-        rhs = unquote(rhs)
-        result = lhs + rhs
-        IO.puts &amp;quot;#{lhs} plus #{rhs} equals to #{result}&amp;quot;
-        result
-    end
-  end
-end
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;defmodule&lt;/span&gt; &lt;span class="nv"&gt;MyMacro&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+  &lt;span class="nv"&gt;defmacro&lt;/span&gt; &lt;span class="nv"&gt;debug&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;{:&lt;span class="o"&gt;+&lt;/span&gt;, &lt;span class="nv"&gt;_context&lt;/span&gt;, [&lt;span class="nv"&gt;lhs&lt;/span&gt;, &lt;span class="nv"&gt;rhs&lt;/span&gt;]}&lt;span class="ss"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="nv"&gt;IO&lt;/span&gt;.&lt;span class="nv"&gt;puts&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;Macro definition Context&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+    &lt;span class="nv"&gt;quote&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+        &lt;span class="nv"&gt;IO&lt;/span&gt;.&lt;span class="nv"&gt;puts&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;Caller&amp;#39;s context&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+        &lt;span class="nv"&gt;lhs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;unquote&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;lhs&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;
+        &lt;span class="nv"&gt;rhs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;unquote&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;rhs&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;
+        &lt;span class="nb"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;lhs&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nv"&gt;rhs&lt;/span&gt;
+        &lt;span class="nv"&gt;IO&lt;/span&gt;.&lt;span class="nv"&gt;puts&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;#{lhs} plus #{rhs} equals to #{result}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+        &lt;span class="nb"&gt;result&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
 
-iex&amp;gt;require MyMacro
-iex&amp;gt;MyMacro.debug(2 + 3)
+&lt;span class="nv"&gt;iex&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="nv"&gt;require&lt;/span&gt; &lt;span class="nv"&gt;MyMacro&lt;/span&gt;
+&lt;span class="nv"&gt;iex&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="nv"&gt;MyMacro&lt;/span&gt;.&lt;span class="nv"&gt;debug&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Notes for Chapter 1 ends here. Will share notes for Chapter 2 when I finish it.&lt;/p&gt;</content><category term="elixir"></category><category term="code"></category></entry><entry><title>JVM vs BEAM Architecture Differences</title><link href="https://prasannavenkadesh.github.io/blog/jvm-beam-differences.html" rel="alternate"></link><published>2020-01-03T00:00:00+05:30</published><updated>2020-01-03T00:00:00+05:30</updated><author><name>Prasanna Venkadesh</name></author><id>tag:prasannavenkadesh.github.io,2020-01-03:/blog/jvm-beam-differences.html</id><summary type="html">&lt;ul&gt;
+&lt;p&gt;Notes for Chapter 1 ends here. Will share notes for Chapter 2 when I finish it.&lt;/p&gt;</content><category term="Programming"></category><category term="elixir"></category><category term="code"></category></entry><entry><title>JVM vs BEAM Architecture Differences</title><link href="https://prasannavenkadesh.github.io/blog/jvm-beam-differences.html" rel="alternate"></link><published>2020-01-03T00:00:00+05:30</published><updated>2020-01-03T00:00:00+05:30</updated><author><name>Prasanna Venkadesh</name></author><id>tag:prasannavenkadesh.github.io,2020-01-03:/blog/jvm-beam-differences.html</id><summary type="html">&lt;ul&gt;
 &lt;li&gt;Recently read &lt;a href="http://ds.cs.ut.ee/courses/course-files/To303nis%20Pool%20.pdf"&gt;a study&lt;/a&gt; comparing the design of widely used Oracle's implementation of JVM (aka. HotSpot VM) and Erricson's implementation Erlang VM (BEAM) with respect to concurrency and parallelism. This study was published in May 2015.&lt;/li&gt;
 &lt;li&gt;This is not about comparing two languages (i.e java vs erlang/elixir) or …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;ul&gt;
 &lt;li&gt;Recently read &lt;a href="http://ds.cs.ut.ee/courses/course-files/To303nis%20Pool%20.pdf"&gt;a study&lt;/a&gt; comparing the design of widely used Oracle's implementation of JVM (aka. HotSpot VM) and Erricson's implementation Erlang VM (BEAM) with respect to concurrency and parallelism. This study was published in May 2015.&lt;/li&gt;
@@ -117,7 +117,7 @@ iex&amp;gt;MyMacro.debug(2 + 3)
 &lt;li&gt;VM threads are many-to-many mapping with os level threads therefore no need to entirely depend on os level schedulers.&lt;/li&gt;
 &lt;li&gt;There are no JIT compilation strategy with BEAM. A project called BEAMJIT was started some years back, but it's not complete.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Now, let us not jump to conclusions of which is better without matching them against the context and problem at hand. Here is &lt;a href="https://news.ycombinator.com/item?id=10027884"&gt;a discussion thread in Hacker News&lt;/a&gt; on the same topic.&lt;/p&gt;</content><category term="tech"></category><category term="design"></category></entry><entry><title>Clojure Notes 1</title><link href="https://prasannavenkadesh.github.io/blog/clojure-notes-1.html" rel="alternate"></link><published>2019-02-19T00:00:00+05:30</published><updated>2019-02-19T00:00:00+05:30</updated><author><name>Prasanna Venkadesh</name></author><id>tag:prasannavenkadesh.github.io,2019-02-19:/blog/clojure-notes-1.html</id><summary type="html">&lt;p&gt;Started learning another general purpose programming language called &lt;strong&gt;&lt;a href="https://clojure.org/"&gt;Clojure&lt;/a&gt;&lt;/strong&gt; which speaks &lt;strong&gt;lisp&lt;/strong&gt; dialect and runs on top of &lt;strong&gt;JVM&lt;/strong&gt;. Thanks to Kamalavelan for creating an interest for me to learn clojure and particularly the book titled, &lt;strong&gt;&lt;a href="https://nostarch.com/clojure"&gt;Clojure For The Brave and True&lt;/a&gt;&lt;/strong&gt; by David Higginbotham is very enjoyable.
+&lt;p&gt;Now, let us not jump to conclusions of which is better without matching them against the context and problem at hand. Here is &lt;a href="https://news.ycombinator.com/item?id=10027884"&gt;a discussion thread in Hacker News&lt;/a&gt; on the same topic.&lt;/p&gt;</content><category term="Programming"></category><category term="tech"></category><category term="design"></category></entry><entry><title>Clojure Notes 1</title><link href="https://prasannavenkadesh.github.io/blog/clojure-notes-1.html" rel="alternate"></link><published>2019-02-19T00:00:00+05:30</published><updated>2019-02-19T00:00:00+05:30</updated><author><name>Prasanna Venkadesh</name></author><id>tag:prasannavenkadesh.github.io,2019-02-19:/blog/clojure-notes-1.html</id><summary type="html">&lt;p&gt;Started learning another general purpose programming language called &lt;strong&gt;&lt;a href="https://clojure.org/"&gt;Clojure&lt;/a&gt;&lt;/strong&gt; which speaks &lt;strong&gt;lisp&lt;/strong&gt; dialect and runs on top of &lt;strong&gt;JVM&lt;/strong&gt;. Thanks to Kamalavelan for creating an interest for me to learn clojure and particularly the book titled, &lt;strong&gt;&lt;a href="https://nostarch.com/clojure"&gt;Clojure For The Brave and True&lt;/a&gt;&lt;/strong&gt; by David Higginbotham is very enjoyable.
 https://nostarch …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Started learning another general purpose programming language called &lt;strong&gt;&lt;a href="https://clojure.org/"&gt;Clojure&lt;/a&gt;&lt;/strong&gt; which speaks &lt;strong&gt;lisp&lt;/strong&gt; dialect and runs on top of &lt;strong&gt;JVM&lt;/strong&gt;. Thanks to Kamalavelan for creating an interest for me to learn clojure and particularly the book titled, &lt;strong&gt;&lt;a href="https://nostarch.com/clojure"&gt;Clojure For The Brave and True&lt;/a&gt;&lt;/strong&gt; by David Higginbotham is very enjoyable.
 https://nostarch.com/clojure
 As a matter of taking notes of what I learn from the book, I share the notes here chapter wise.&lt;/p&gt;
@@ -150,20 +150,20 @@ As a matter of taking notes of what I learn from the book, I share the notes her
 &lt;li&gt;control flow =&amp;gt; if do when&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;(if boolean-form then-form optional-else-form)&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;(if true
-&amp;quot;Sucess&amp;quot;
-&amp;quot;Failure&amp;quot;)
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nv"&gt;true&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;Sucess&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;Failure&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;note that if..else can execute only one form. to overcome this we can use do.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;(if true
-    (do (println &amp;quot;Success&amp;quot;)
-        &amp;quot;succesS&amp;quot;)
-    (do (println &amp;quot;Failure&amp;quot;)
-        &amp;quot;failure&amp;quot;))
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nv"&gt;true&lt;/span&gt;
+    &lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;println&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;Success&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;succesS&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;
+    &lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;println&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;Failure&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s"&gt;failure&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="ss"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -206,10 +206,10 @@ As a matter of taking notes of what I learn from the book, I share the notes her
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Vectors&lt;/strong&gt; are like 0 indexed arrays and can be heterogenous.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[1 2 3 4]&lt;/span&gt;
-&lt;span class="na"&gt;(def vecData [1 2 3 4])&lt;/span&gt;
-&lt;span class="na"&gt;(get vecData 2)&lt;/span&gt;
-&lt;span class="na"&gt;(conj vecData 10)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;[1 2 3 4]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;(def vecData [1 2 3 4])&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;(get vecData 2)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="na"&gt;(conj vecData 10)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -255,48 +255,48 @@ As a matter of taking notes of what I learn from the book, I share the notes her
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;[]&lt;/strong&gt; is used to pass arguments to functions. function parameters can be used to overload and can be used for multiple purposes. Those are called &lt;strong&gt;Arity&lt;/strong&gt;.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;defn &lt;/span&gt;&lt;span class="nv"&gt;myFunction&lt;/span&gt;
-  &lt;span class="p"&gt;([]&lt;/span&gt;
-    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;println&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;no arguments supplied&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-  &lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;, &lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;println&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;two arguments supplied&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;defn &lt;/span&gt;&lt;span class="nv"&gt;myFunction&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;([]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;println&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;no arguments supplied&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="nv"&gt;x&lt;/span&gt;,&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;y&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;println&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;two arguments supplied&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;&amp;amp;&lt;/code&gt; ampresand is used to denote rest of parameters. Like *args in &lt;code&gt;python&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;defn &lt;/span&gt;&lt;span class="nv"&gt;myFunction&lt;/span&gt;
-  &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;name&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;defn &lt;/span&gt;&lt;span class="nv"&gt;myFunction&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;name&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;(str "Hi. I am " name))&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;defn &lt;/span&gt;&lt;span class="nv"&gt;myFunc&lt;/span&gt;
-  &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="nv"&gt;names&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;map&lt;/span&gt; &lt;span class="nv"&gt;myFunc&lt;/span&gt; &lt;span class="nv"&gt;names&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;defn &lt;/span&gt;&lt;span class="nv"&gt;myFunc&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;names&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;map&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;myFunc&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;names&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;myFunc&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Prasanna&amp;quot;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Kamal&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;myFunc&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Prasanna&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Kamal&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Anonymous Functions&lt;/strong&gt; are functions without names. They can be defined anywhere using &lt;code&gt;fn&lt;/code&gt; keyword.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;(fn [arguments] function-body)
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fn&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;arguments&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-((fn [x] (* x 3)) 8)
+&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;fn&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-(map (fn [name] (str &amp;quot;Hi &amp;quot; name) [&amp;quot;Prasanna&amp;quot; &amp;quot;Kamal&amp;quot;])
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;map&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fn&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;str&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;Hi &amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;&amp;quot;Prasanna&amp;quot; &amp;quot;Kamal&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;anonymous functions can also be bound to variables.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;(def my-function (fn [name] (str &amp;quot;Hi, &amp;quot; name)))
-(my-function &amp;quot;Prasanna&amp;quot;)
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;my&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fn&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;str&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;Hi, &amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;my&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;Prasanna&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -315,39 +315,39 @@ As a matter of taking notes of what I learn from the book, I share the notes her
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Destructuring&lt;/strong&gt; is about binding names to values in a collection based on positions.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;defn &lt;/span&gt;&lt;span class="nv"&gt;chooser&lt;/span&gt;
-  &lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="nv"&gt;first-param&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;
-  &lt;span class="nv"&gt;first-param&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;defn &lt;/span&gt;&lt;span class="nv"&gt;chooser&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="nv"&gt;first-param&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nv"&gt;first-param&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;chooser&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Prasanna&amp;quot;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Kamal&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;chooser&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Prasanna&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Kamal&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;defn &lt;/span&gt;&lt;span class="nv"&gt;chooser&lt;/span&gt;
-  &lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="nv"&gt;name&lt;/span&gt; &lt;span class="nv"&gt;age&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="nv"&gt;other&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;
-  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;println&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Hi, &amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;name&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;println&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Your age: &amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;age&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;prinln&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Other info: &amp;quot;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;clojure.string/join&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;, &amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;other&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;defn &lt;/span&gt;&lt;span class="nv"&gt;chooser&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="nv"&gt;name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;age&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;other&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;println&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Hi, &amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;name&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;println&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Your age: &amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;age&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;prinln&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Other info: &amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;clojure.string/join&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;, &amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;other&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;chooser&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Prasanna&amp;quot;&lt;/span&gt; &lt;span class="mi"&gt;28&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;test@testing.org&amp;quot;&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;B+&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;chooser&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Prasanna&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;28&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;test@testing.org&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;B+&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Clojure has &lt;strong&gt;closures&lt;/strong&gt;. Yes. closures are those functions that are returned by another functions. closure by itself is a design pattern to indicate state maintanence or scope of variables. To be frank, I haven't grasped this design well yet.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;defn &lt;/span&gt;&lt;span class="nv"&gt;inc-maker&lt;/span&gt;
-  &lt;span class="s"&gt;&amp;quot;Create a custom incrementor&amp;quot;&lt;/span&gt;
-  &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;inc-by&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-  &lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;+&lt;/span&gt; &lt;span class="nv"&gt;%&lt;/span&gt; &lt;span class="nv"&gt;inc-by&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;defn &lt;/span&gt;&lt;span class="nv"&gt;inc-maker&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Create a custom incrementor&amp;quot;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;inc-by&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;#&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;%&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;inc-by&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;def &lt;/span&gt;&lt;span class="nv"&gt;inc3&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;inc-maker&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;def &lt;/span&gt;&lt;span class="nv"&gt;inc3&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;inc-maker&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 
-&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;inc3&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;inc3&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;End of Chapter 3. Will continue further notes in separate post.&lt;/p&gt;</content><category term="books"></category><category term="code"></category></entry><entry><title>Learnings From Building Offline First Web App</title><link href="https://prasannavenkadesh.github.io/blog/offline-first-coops-map.html" rel="alternate"></link><published>2017-04-24T00:00:00+05:30</published><updated>2017-04-24T00:00:00+05:30</updated><author><name>Prasanna Venkadesh</name></author><id>tag:prasannavenkadesh.github.io,2017-04-24:/blog/offline-first-coops-map.html</id><summary type="html">&lt;p&gt;I wrote a web app recently. The purpose of the web app is to map the &lt;strong&gt;cooperatives&lt;/strong&gt; around us. I'll speak about the intentions behind it in another post, for now let us focus on the &lt;strong&gt;Offline First&lt;/strong&gt;
+&lt;p&gt;End of Chapter 3. Will continue further notes in separate post.&lt;/p&gt;</content><category term="Programming"></category><category term="books"></category><category term="code"></category></entry><entry><title>Learnings From Building Offline First Web App</title><link href="https://prasannavenkadesh.github.io/blog/offline-first-coops-map.html" rel="alternate"></link><published>2017-04-24T00:00:00+05:30</published><updated>2017-04-24T00:00:00+05:30</updated><author><name>Prasanna Venkadesh</name></author><id>tag:prasannavenkadesh.github.io,2017-04-24:/blog/offline-first-coops-map.html</id><summary type="html">&lt;p&gt;I wrote a web app recently. The purpose of the web app is to map the &lt;strong&gt;cooperatives&lt;/strong&gt; around us. I'll speak about the intentions behind it in another post, for now let us focus on the &lt;strong&gt;Offline First&lt;/strong&gt;
 approach of this app. The application is hosted here &lt;a href="https://prashere.gitlab.io/coop-demo"&gt;live&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;Initial Version …&lt;/h3&gt;</summary><content type="html">&lt;p&gt;I wrote a web app recently. The purpose of the web app is to map the &lt;strong&gt;cooperatives&lt;/strong&gt; around us. I'll speak about the intentions behind it in another post, for now let us focus on the &lt;strong&gt;Offline First&lt;/strong&gt;
 approach of this app. The application is hosted here &lt;a href="https://prashere.gitlab.io/coop-demo"&gt;live&lt;/a&gt;.&lt;/p&gt;
@@ -403,7 +403,7 @@ at the coops marked already or can contribute by adding new coops.&lt;/p&gt;
 have the data with them. This data independence also open news possibilities like allowing users to choose their backend servers or go completely offline. &lt;a href="https://gitlab.com/prashere/coops-map-offline-first"&gt;Here&lt;/a&gt; 
 is the source of the offline first implementation. When you look at it, it is a static web application with just html, css and js.&lt;/p&gt;
 &lt;p&gt;If you are interested with this approach, do explore the above design principles, libraries, frameworks as well as in-browser features like &lt;strong&gt;&lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers"&gt;Service Workers&lt;/a&gt;&lt;/strong&gt; 
-and &lt;strong&gt;&lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB"&gt;IndexedDB&lt;/a&gt;&lt;/strong&gt;. &lt;a href="https://developer.mozilla.org/en-US/Apps/Fundamentals/Offline"&gt;This documentation&lt;/a&gt; from mozilla developer networks explains the offline workflow.&lt;/p&gt;</content><category term="code"></category><category term="Internet"></category><category term="tech"></category><category term="web"></category><category term="free software"></category></entry><entry><title>P2P File &amp; URL Sharing App on LAN</title><link href="https://prasannavenkadesh.github.io/blog/working-on-p2p-file-url-sharing-app.html" rel="alternate"></link><published>2016-07-08T00:00:00+05:30</published><updated>2016-07-08T00:00:00+05:30</updated><author><name>Prasanna Venkadesh</name></author><id>tag:prasannavenkadesh.github.io,2016-07-08:/blog/working-on-p2p-file-url-sharing-app.html</id><summary type="html">&lt;p&gt;For the past 1 week, I have been working on a peer-to-peer File and URL sharing app and I have named it as &lt;strong&gt;Transceiver&lt;/strong&gt; (the ability to transmit and receive data). I would like to log the progress of what I have done so far.&lt;/p&gt;
+and &lt;strong&gt;&lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB"&gt;IndexedDB&lt;/a&gt;&lt;/strong&gt;. &lt;a href="https://developer.mozilla.org/en-US/Apps/Fundamentals/Offline"&gt;This documentation&lt;/a&gt; from mozilla developer networks explains the offline workflow.&lt;/p&gt;</content><category term="Programming"></category><category term="code"></category><category term="Internet"></category><category term="tech"></category><category term="web"></category><category term="free software"></category></entry><entry><title>P2P File &amp; URL Sharing App on LAN</title><link href="https://prasannavenkadesh.github.io/blog/working-on-p2p-file-url-sharing-app.html" rel="alternate"></link><published>2016-07-08T00:00:00+05:30</published><updated>2016-07-08T00:00:00+05:30</updated><author><name>Prasanna Venkadesh</name></author><id>tag:prasannavenkadesh.github.io,2016-07-08:/blog/working-on-p2p-file-url-sharing-app.html</id><summary type="html">&lt;p&gt;For the past 1 week, I have been working on a peer-to-peer File and URL sharing app and I have named it as &lt;strong&gt;Transceiver&lt;/strong&gt; (the ability to transmit and receive data). I would like to log the progress of what I have done so far.&lt;/p&gt;
 &lt;p&gt;There are various reasons, why …&lt;/p&gt;</summary><content type="html">&lt;p&gt;For the past 1 week, I have been working on a peer-to-peer File and URL sharing app and I have named it as &lt;strong&gt;Transceiver&lt;/strong&gt; (the ability to transmit and receive data). I would like to log the progress of what I have done so far.&lt;/p&gt;
 &lt;p&gt;There are various reasons, why I am writing this application.&lt;/p&gt;
 &lt;ol&gt;
@@ -424,14 +424,14 @@ and &lt;strong&gt;&lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/I
 &lt;li&gt;Electron + nodejs as a cross-platform framework.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;An instance of this application can act as both server and client at the same time, thus can listen for incoming data and also it can send data to other peers on the network. Since the peers are discovered through zeroconf, their identities are exposed to everyone on the network using this app and thus we are able to eliminate central signalling server here.&lt;/p&gt;
-&lt;p&gt;For now the text / URL sharing is complete. I am yet to work on the File transfer part. I am releasing this work under Free Software license (GPL v3) and the source code is hosted on &lt;a href="https://gitlab.com/prashere/transceiver/"&gt;gitlab here&lt;/a&gt;.&lt;/p&gt;</content><category term="code"></category><category term="free software"></category><category term="networks"></category><category term="tech"></category></entry><entry><title>Cross Compilation in Go</title><link href="https://prasannavenkadesh.github.io/blog/go-cross-compilation.html" rel="alternate"></link><published>2016-06-24T00:00:00+05:30</published><updated>2016-06-24T00:00:00+05:30</updated><author><name>Prasanna Venkadesh</name></author><id>tag:prasannavenkadesh.github.io,2016-06-24:/blog/go-cross-compilation.html</id><summary type="html">&lt;p&gt;Recently I have started to explore the Go programming language or golang in short. Go is a compiled language which can produce standalone binaries for the go programs, which means the receiver of this binary need not have go compiler and the libraries that this program is dependent installed on …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Recently I have started to explore the Go programming language or golang in short. Go is a compiled language which can produce standalone binaries for the go programs, which means the receiver of this binary need not have go compiler and the libraries that this program is dependent installed on their machine, instead they can just run the binary and the program will be executed.&lt;/p&gt;
+&lt;p&gt;For now the text / URL sharing is complete. I am yet to work on the File transfer part. I am releasing this work under Free Software license (GPL v3) and the source code is hosted on &lt;a href="https://gitlab.com/prashere/transceiver/"&gt;gitlab here&lt;/a&gt;.&lt;/p&gt;</content><category term="Programming"></category><category term="code"></category><category term="free software"></category><category term="networks"></category><category term="tech"></category></entry><entry><title>Cross Compilation in Go</title><link href="https://prasannavenkadesh.github.io/blog/go-cross-compilation.html" rel="alternate"></link><published>2016-06-24T00:00:00+05:30</published><updated>2016-06-24T00:00:00+05:30</updated><author><name>Prasanna Venkadesh</name></author><id>tag:prasannavenkadesh.github.io,2016-06-24:/blog/go-cross-compilation.html</id><summary type="html">&lt;p&gt;Recently I have started to explore the Go programming language or golang in short. Go is a compiled language which can produce standalone binaries for the go programs, which means the receiver of this binary need not have go compiler and the libraries that this program is dependent installed on …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Recently I have started to explore the Go programming language or golang in short. Go is a compiled language which can produce standalone binaries for the go programs, which means the receiver of this binary need not have go compiler and the libraries that this program is dependent installed on their machine, instead they can just run the binary and the program will be executed.&lt;/p&gt;
 &lt;p&gt;This is also the same case with C and C++. If you have used GCC (GNU Compiler Collection) then you could have come across something called cross-compilation in gcc. Compilation means converting from source code to binary, while cross compilation means producing binaries that can be used on other target architectures too.&lt;/p&gt;
 &lt;p&gt;For example, I am writing code in my laptop which is running Linux kernel and the cpu &amp;amp; operating system architectures are 64-bit (often represented as amd64 or x86_64). When I compile this source code on my laptop, I will get a binary. I can execute this binary and can also distribute. But the only constraint is this binary is build for 64bit architecture and linux based machines only. Therefore if someone who runs 32bit or ARM based architectures even with Linux kernel, they cannot use this binary.&lt;/p&gt;
 &lt;p&gt;In order to overcome this, gcc allows developers to do cross compilation. Similarly go compiler also has this feature inbuilt. Here is how we do it&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;env GOOS=linux GOARCH=arm go build somefile.go
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;GOOS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;linux&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;GOARCH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;arm&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;go&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;build&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;somefile&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;go&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;In the above command, I am setting values for two environment variables GOOS and GOARCH respectively where GOOS is the name of the kernel used in target operating system and GOARCH is the name of the cpu architecture used in the target computer hardware. Succeeding that is the go command to build binary from the source code &lt;code&gt;somefile.go&lt;/code&gt;. It will take few seconds to build the binary, once that is done now the binary can be used to execute the program in the target machine.&lt;/p&gt;
 &lt;p&gt;To know the valid and available GOOS and GOARCH values that go accepts, &lt;a href="https://golang.org/doc/install/source#environment"&gt;go here&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Note: Producing binaries and distributing them is very good from users usability point of view. It will be convinient for users to just double click on something to see it work (in fact that's how most of them were training through Microsoft Windows). As a free software activist, I appeal that we should also consider the users freedom point of view and give them links to access the source code of the same program that they use in their computer in the binary. The users have the right to know what is being executed in their machines.&lt;/p&gt;</content><category term="tech"></category><category term="code"></category></entry></feed>
+&lt;p&gt;Note: Producing binaries and distributing them is very good from users usability point of view. It will be convinient for users to just double click on something to see it work (in fact that's how most of them were training through Microsoft Windows). As a free software activist, I appeal that we should also consider the users freedom point of view and give them links to access the source code of the same program that they use in their computer in the binary. The users have the right to know what is being executed in their machines.&lt;/p&gt;</content><category term="Programming"></category><category term="tech"></category><category term="code"></category></entry></feed>

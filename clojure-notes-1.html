@@ -3,11 +3,11 @@
 
 <head>
   <!-- ## for client-side less
-  <link rel="stylesheet/less" type="text/css" href="./theme/css/style.less">
+  <link rel="stylesheet/less" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/style.less">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
   -->
-  <link rel="stylesheet" type="text/css" href="./theme/css/style.css">
-  <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/pygments.css">
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
 
   <meta charset="utf-8" />
@@ -28,15 +28,15 @@
 <body>
   <aside>
     <div id="user_meta">
-      <a href=".">
-        <img src="https://prasannavenkadesh.github.io/blog/images/pic.png" alt="logo">
+      <a href="https://prasannavenkadesh.github.io/blog">
+        <img src="/images/pic.png" alt="logo">
       </a>
-      <h3><a href=".">Prasanna Venkadesh</a></h3>
-      <p><a href="https://www.gnu.org/philosophy/free-sw.en.html" target="_blank">Free Software</a> + Free Culture = Free Society</p>
+      <h2><a href="https://prasannavenkadesh.github.io/blog">Towards Freedom</a></h2>
+      <p>Free Software + Free Culture = Freedom</p>
       <ul>
         <li><a href="https://prasannavenkadesh.github.io" target="_blank">About</a></li>
-        <li><a href="https://connect.fshm.in/prashere" target="_blank">Social</a></li>
         <li><a href="https://gitlab.com/prashere" target="_blank">Code</a></li>
+        <li><a href="https://manyver.se" target="_blank">SSB - Manyverse</a></li>
       </ul>
     </div>
   </aside>
@@ -44,14 +44,17 @@
   <main>
     <header>
       <p>
-      <a href=".">Index</a> &brvbar; <a href="./archives.html">Archives</a>
+      <a href="https://prasannavenkadesh.github.io/blog">Index</a> &brvbar; <a href="https://prasannavenkadesh.github.io/blog/archives.html">Archives</a>
       &brvbar; <a href="https://prasannavenkadesh.github.io/blog/feeds/all.atom.xml">Atom</a>
       </p>
     </header>
 
 <article>
   <div class="article_title">
-    <h3><a href="./clojure-notes-1.html">Clojure Notes 1</a></h3>
+    <h1><a href="https://prasannavenkadesh.github.io/blog/clojure-notes-1.html">Clojure Notes 1</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Tue 19 February 2019</p>
   </div>
   <div class="article_text">
     <p>Started learning another general purpose programming language called <strong><a href="https://clojure.org/">Clojure</a></strong> which speaks <strong>lisp</strong> dialect and runs on top of <strong>JVM</strong>. Thanks to Kamalavelan for creating an interest for me to learn clojure and particularly the book titled, <strong><a href="https://nostarch.com/clojure">Clojure For The Brave and True</a></strong> by David Higginbotham is very enjoyable.
@@ -86,20 +89,20 @@ As a matter of taking notes of what I learn from the book, I share the notes her
 <li>control flow =&gt; if do when</li>
 <li>
 <p><code>(if boolean-form then-form optional-else-form)</code></p>
-<div class="highlight"><pre><span></span>(if true
-&quot;Sucess&quot;
-&quot;Failure&quot;)
+<div class="highlight"><pre><span></span><span class="ss">(</span><span class="k">if</span> <span class="nv">true</span>
+<span class="s2">&quot;</span><span class="s">Sucess</span><span class="s2">&quot;</span>
+<span class="s2">&quot;</span><span class="s">Failure</span><span class="s2">&quot;</span><span class="ss">)</span>
 </pre></div>
 
 
 </li>
 <li>
 <p>note that if..else can execute only one form. to overcome this we can use do.</p>
-<div class="highlight"><pre><span></span>(if true
-    (do (println &quot;Success&quot;)
-        &quot;succesS&quot;)
-    (do (println &quot;Failure&quot;)
-        &quot;failure&quot;))
+<div class="highlight"><pre><span></span><span class="ss">(</span><span class="k">if</span> <span class="nv">true</span>
+    <span class="ss">(</span><span class="k">do</span> <span class="ss">(</span><span class="nv">println</span> <span class="s2">&quot;</span><span class="s">Success</span><span class="s2">&quot;</span><span class="ss">)</span>
+        <span class="s2">&quot;</span><span class="s">succesS</span><span class="s2">&quot;</span><span class="ss">)</span>
+    <span class="ss">(</span><span class="k">do</span> <span class="ss">(</span><span class="nv">println</span> <span class="s2">&quot;</span><span class="s">Failure</span><span class="s2">&quot;</span><span class="ss">)</span>
+        <span class="s2">&quot;</span><span class="s">failure</span><span class="s2">&quot;</span><span class="ss">))</span>
 </pre></div>
 
 
@@ -142,10 +145,10 @@ As a matter of taking notes of what I learn from the book, I share the notes her
 </li>
 <li>
 <p><strong>Vectors</strong> are like 0 indexed arrays and can be heterogenous.</p>
-<div class="highlight"><pre><span></span><span class="k">[1 2 3 4]</span>
-<span class="na">(def vecData [1 2 3 4])</span>
-<span class="na">(get vecData 2)</span>
-<span class="na">(conj vecData 10)</span>
+<div class="highlight"><pre><span></span><span class="k">[1 2 3 4]</span><span class="w"></span>
+<span class="na">(def vecData [1 2 3 4])</span><span class="w"></span>
+<span class="na">(get vecData 2)</span><span class="w"></span>
+<span class="na">(conj vecData 10)</span><span class="w"></span>
 </pre></div>
 
 
@@ -191,48 +194,48 @@ As a matter of taking notes of what I learn from the book, I share the notes her
 </li>
 <li>
 <p><strong>[]</strong> is used to pass arguments to functions. function parameters can be used to overload and can be used for multiple purposes. Those are called <strong>Arity</strong>.</p>
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">myFunction</span>
-  <span class="p">([]</span>
-    <span class="p">(</span><span class="nf">println</span> <span class="s">&quot;no arguments supplied&quot;</span><span class="p">))</span>
-  <span class="p">([</span><span class="nv">x</span>, <span class="nv">y</span><span class="p">])</span>
-    <span class="p">(</span><span class="nf">println</span> <span class="s">&quot;two arguments supplied&quot;</span><span class="p">))</span>
-<span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">myFunction</span><span class="w"></span>
+<span class="w">  </span><span class="p">([]</span><span class="w"></span>
+<span class="w">    </span><span class="p">(</span><span class="nf">println</span><span class="w"> </span><span class="s">&quot;no arguments supplied&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="p">([</span><span class="nv">x</span>,<span class="w"> </span><span class="nv">y</span><span class="p">])</span><span class="w"></span>
+<span class="w">    </span><span class="p">(</span><span class="nf">println</span><span class="w"> </span><span class="s">&quot;two arguments supplied&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
 </pre></div>
 
 
 </li>
 <li>
 <p><code>&amp;</code> ampresand is used to denote rest of parameters. Like *args in <code>python</code></p>
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">myFunction</span>
-  <span class="p">[</span><span class="nv">name</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">myFunction</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="nv">name</span><span class="p">]</span><span class="w"></span>
 </pre></div>
 
 
 <p>(str "Hi. I am " name))</p>
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">myFunc</span>
-  <span class="p">[</span><span class="o">&amp;</span> <span class="nv">names</span><span class="p">]</span>
-  <span class="p">(</span><span class="nb">map</span> <span class="nv">myFunc</span> <span class="nv">names</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">myFunc</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="o">&amp;</span><span class="w"> </span><span class="nv">names</span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="nb">map</span><span class="w"> </span><span class="nv">myFunc</span><span class="w"> </span><span class="nv">names</span><span class="p">))</span><span class="w"></span>
 
-<span class="p">(</span><span class="nf">myFunc</span> <span class="s">&quot;Prasanna&quot;</span> <span class="s">&quot;Kamal&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">myFunc</span><span class="w"> </span><span class="s">&quot;Prasanna&quot;</span><span class="w"> </span><span class="s">&quot;Kamal&quot;</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 
 
 </li>
 <li>
 <p><strong>Anonymous Functions</strong> are functions without names. They can be defined anywhere using <code>fn</code> keyword.</p>
-<div class="highlight"><pre><span></span>(fn [arguments] function-body)
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">fn</span><span class="w"> </span><span class="o">[</span><span class="n">arguments</span><span class="o">]</span><span class="w"> </span><span class="k">function</span><span class="o">-</span><span class="n">body</span><span class="p">)</span><span class="w"></span>
 
-((fn [x] (* x 3)) 8)
+<span class="p">((</span><span class="n">fn</span><span class="w"> </span><span class="o">[</span><span class="n">x</span><span class="o">]</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"></span>
 
-(map (fn [name] (str &quot;Hi &quot; name) [&quot;Prasanna&quot; &quot;Kamal&quot;])
+<span class="p">(</span><span class="k">map</span><span class="w"> </span><span class="p">(</span><span class="n">fn</span><span class="w"> </span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="p">(</span><span class="nf">str</span><span class="w"> </span><span class="ss">&quot;Hi &quot;</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">[</span><span class="n">&quot;Prasanna&quot; &quot;Kamal&quot;</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 
 
 </li>
 <li>
 <p>anonymous functions can also be bound to variables.</p>
-<div class="highlight"><pre><span></span>(def my-function (fn [name] (str &quot;Hi, &quot; name)))
-(my-function &quot;Prasanna&quot;)
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="n">def</span><span class="w"> </span><span class="n">my</span><span class="o">-</span><span class="k">function</span><span class="w"> </span><span class="p">(</span><span class="n">fn</span><span class="w"> </span><span class="o">[</span><span class="n">name</span><span class="o">]</span><span class="w"> </span><span class="p">(</span><span class="nf">str</span><span class="w"> </span><span class="ss">&quot;Hi, &quot;</span><span class="w"> </span><span class="n">name</span><span class="p">)))</span><span class="w"></span>
+<span class="p">(</span><span class="n">my</span><span class="o">-</span><span class="k">function</span><span class="w"> </span><span class="ss">&quot;Prasanna&quot;</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 
 
@@ -251,33 +254,33 @@ As a matter of taking notes of what I learn from the book, I share the notes her
 </li>
 <li>
 <p><strong>Destructuring</strong> is about binding names to values in a collection based on positions.</p>
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">chooser</span>
-  <span class="p">[[</span><span class="nv">first-param</span><span class="p">]]</span>
-  <span class="nv">first-param</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">chooser</span><span class="w"></span>
+<span class="w">  </span><span class="p">[[</span><span class="nv">first-param</span><span class="p">]]</span><span class="w"></span>
+<span class="w">  </span><span class="nv">first-param</span><span class="p">)</span><span class="w"></span>
 
-<span class="p">(</span><span class="nf">chooser</span> <span class="p">[</span><span class="s">&quot;Prasanna&quot;</span> <span class="s">&quot;Kamal&quot;</span><span class="p">])</span>
+<span class="p">(</span><span class="nf">chooser</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Prasanna&quot;</span><span class="w"> </span><span class="s">&quot;Kamal&quot;</span><span class="p">])</span><span class="w"></span>
 
-<span class="p">(</span><span class="kd">defn </span><span class="nv">chooser</span>
-  <span class="p">[[</span><span class="nv">name</span> <span class="nv">age</span> <span class="o">&amp;</span> <span class="nv">other</span><span class="p">]]</span>
-  <span class="p">(</span><span class="nf">println</span> <span class="p">(</span><span class="nb">str</span> <span class="s">&quot;Hi, &quot;</span> <span class="nv">name</span><span class="p">))</span>
-  <span class="p">(</span><span class="nf">println</span> <span class="p">(</span><span class="nb">str</span> <span class="s">&quot;Your age: &quot;</span> <span class="nv">age</span><span class="p">))</span>
-  <span class="p">(</span><span class="nf">prinln</span> <span class="p">(</span><span class="nb">str</span> <span class="s">&quot;Other info: &quot;</span> <span class="p">(</span><span class="nf">clojure.string/join</span> <span class="s">&quot;, &quot;</span> <span class="nv">other</span><span class="p">))))</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">chooser</span><span class="w"></span>
+<span class="w">  </span><span class="p">[[</span><span class="nv">name</span><span class="w"> </span><span class="nv">age</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="nv">other</span><span class="p">]]</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="nf">println</span><span class="w"> </span><span class="p">(</span><span class="nb">str</span><span class="w"> </span><span class="s">&quot;Hi, &quot;</span><span class="w"> </span><span class="nv">name</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="nf">println</span><span class="w"> </span><span class="p">(</span><span class="nb">str</span><span class="w"> </span><span class="s">&quot;Your age: &quot;</span><span class="w"> </span><span class="nv">age</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="nf">prinln</span><span class="w"> </span><span class="p">(</span><span class="nb">str</span><span class="w"> </span><span class="s">&quot;Other info: &quot;</span><span class="w"> </span><span class="p">(</span><span class="nf">clojure.string/join</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="w"> </span><span class="nv">other</span><span class="p">))))</span><span class="w"></span>
 
-<span class="p">(</span><span class="nf">chooser</span> <span class="p">[</span><span class="s">&quot;Prasanna&quot;</span> <span class="mi">28</span> <span class="s">&quot;test@testing.org&quot;</span> <span class="s">&quot;B+&quot;</span><span class="p">])</span>
+<span class="p">(</span><span class="nf">chooser</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;Prasanna&quot;</span><span class="w"> </span><span class="mi">28</span><span class="w"> </span><span class="s">&quot;test@testing.org&quot;</span><span class="w"> </span><span class="s">&quot;B+&quot;</span><span class="p">])</span><span class="w"></span>
 </pre></div>
 
 
 </li>
 <li>
 <p>Clojure has <strong>closures</strong>. Yes. closures are those functions that are returned by another functions. closure by itself is a design pattern to indicate state maintanence or scope of variables. To be frank, I haven't grasped this design well yet.</p>
-<div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">inc-maker</span>
-  <span class="s">&quot;Create a custom incrementor&quot;</span>
-  <span class="p">[</span><span class="nv">inc-by</span><span class="p">]</span>
-  <span class="o">#</span><span class="p">(</span><span class="nf">+</span> <span class="nv">%</span> <span class="nv">inc-by</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">inc-maker</span><span class="w"></span>
+<span class="w">  </span><span class="s">&quot;Create a custom incrementor&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="nv">inc-by</span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="o">#</span><span class="p">(</span><span class="nf">+</span><span class="w"> </span><span class="nv">%</span><span class="w"> </span><span class="nv">inc-by</span><span class="p">))</span><span class="w"></span>
 
-<span class="p">(</span><span class="kd">def </span><span class="nv">inc3</span> <span class="p">(</span><span class="nf">inc-maker</span> <span class="mi">3</span><span class="p">))</span>
+<span class="p">(</span><span class="kd">def </span><span class="nv">inc3</span><span class="w"> </span><span class="p">(</span><span class="nf">inc-maker</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w"></span>
 
-<span class="p">(</span><span class="nf">inc3</span> <span class="mi">7</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">inc3</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 
 
@@ -286,10 +289,9 @@ As a matter of taking notes of what I learn from the book, I share the notes her
 <p>End of Chapter 3. Will continue further notes in separate post.</p>
   </div>
   <div class="article_meta">
-    <p>Posted on: Tue 19 February 2019</p>
-    <p>Category: <a href="./category/programming.html">Programming</a>
+    <p>Category: <a href="https://prasannavenkadesh.github.io/blog/category/programming.html">Programming</a>
  &ndash; Tags:
-      <a href="./tag/books.html">books</a>,      <a href="./tag/code.html">code</a>    </p>
+      <a href="https://prasannavenkadesh.github.io/blog/tag/books.html">books</a>,      <a href="https://prasannavenkadesh.github.io/blog/tag/code.html">code</a>    </p>
   </div>
 
 

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="stylesheet" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Prasanna Venkadesh">
+  <meta name="description" content="Posts and writings by Prasanna Venkadesh">
+
+  <link href="https://prasannavenkadesh.github.io/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Towards Freedom Atom" />
+
+<meta name="keywords" content="code, design, software">
+
+  <title>
+    Towards Freedom
+&ndash; Various Options To Deliver Real Time Notifications  </title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://prasannavenkadesh.github.io/blog">
+        <img src="/images/pic.png" alt="logo">
+      </a>
+      <h2><a href="https://prasannavenkadesh.github.io/blog">Towards Freedom</a></h2>
+      <p>Free Software + Free Culture = Freedom</p>
+      <ul>
+        <li><a href="https://prasannavenkadesh.github.io" target="_blank">About</a></li>
+        <li><a href="https://gitlab.com/prashere" target="_blank">Code</a></li>
+        <li><a href="https://manyver.se" target="_blank">SSB - Manyverse</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://prasannavenkadesh.github.io/blog">Index</a> &brvbar; <a href="https://prasannavenkadesh.github.io/blog/archives.html">Archives</a>
+      &brvbar; <a href="https://prasannavenkadesh.github.io/blog/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h1><a href="https://prasannavenkadesh.github.io/blog/push-notifications.html">Various Options To Deliver Real Time Notifications</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Fri 12 August 2022</p>
+  </div>
+  <div class="article_text">
+    <p>If you wish to deliver (or) push data from your web server to your web application running in a browser in real time, you have 4 options at the time of writing this post (2022).</p>
+<ol>
+<li>Polling / Long Polling.</li>
+<li>Server Sent Events (SSE).</li>
+<li>Websockets.</li>
+<li>WebPush</li>
+</ol>
+<h3>Polling</h3>
+<p>Polling and Long Polling has been used traditionally &amp; being used till date. As the name suggests polling / long polling is not push, but clients checking (a.k.a polling) every once in a while if something has changed in the server side. For example, client making a HTTP request to server every 10 seconds as an XMLHttpRequest (XHR) or more commonly known as AJAX (Asynchronous Javascript and XML).</p>
+<p>But this is not efficient because it adds an unwanted load to the server. Imagine, 100 people using the website and each of them polling the server every 10 seconds. Even when there is no change in the server, it has to respond to every HTTP request made by the client &amp; client has to keep polling.</p>
+<h3>Long Polling</h3>
+<p>Long polling is a better version of simple polling. Long polling is when client makes a HTTP request to the server and instead of immediately returning any response, the server holds the request until any data is available to send to the client. Once the data is delivered to the client, the client immediately makes another HTTP request and the cycle goes on. This approach is also called as Comet approach.</p>
+<h3>Server Sent Events</h3>
+<p>The Server Sent Events (SSE) is the first effort to push or stream data from server to the client. As usual the client makes the first request to server, the server holds the connection &amp; uses some of the HTTP response headers to stream the data in the single connection, until the connection is closed by the server or client.</p>
+<p>The main difference between long polling and SSE is that in long polling when server sends the response the HTTP request-response cycle ends &amp; a new connection is opened again. i.e a new connection for every message. With SSE, only one connection is opened and the server keeps pushing the data.</p>
+<p>The way it is achieved is through the <em>"Transfer-Encoding: chuncked"</em> response header. This header informs the client that the response size is unknown and the data will be sent in chunks. This method is usually used to transfer large files from the server to client. SSE takes advantage of this and defines a message format. The message format must have <em>"data"</em> field and optional <em>"event"</em>, <em>"id"</em> and <em>"retry"</em> fields. Web browsers implement the <strong>EventSource javascript API</strong> to initiate a SSE request to server.</p>
+<p>SSE is still HTTP request-response cycle, but everything happens within one request-response cycle. One of the main limitation, I see in SSE is the inability on the client side to set custom request headers. Lack of this ability means, one cannot pass authentication related headers as we do in usual HTTP request.</p>
+<h3>Websockets</h3>
+<p>Then came the websockets. If SSE is unidirectional (i.e servers streams events to the client), then websockets are bidirectional. Websockets is not HTTP. It is a new protocol altogether, similar to HTTP on layer 7. HTTP is used only for the initial handshake and if the server responds with an Upgrade response header, then a websocket connection is established between the client &amp; the server. Web browsers implement the <strong>WebSocket API</strong> to initiate a websocket connection from client to server.</p>
+<p>Once a websocket connection is established, each side can exchange data with each other. For pushing data from server to client, the server can ignore any message that is sent by client keep pushing the data.</p>
+<h3>WebPush</h3>
+<p>WebPush is relatively new compared to all the above. Similar to SSE, WebPush is also unidirectional. It is ideal to push notifications from server to client. The notifications are then rendered as a notification of the Desktop Environment of the OS in use. This also involves additional steps to implement compared to the above methods. WebPush can deliver notifications even when the webpage is not loaded.</p>
+<p>For WebPush, browsers are responsible to implement <strong>Push API</strong> in browsers &amp; a online service to receive push notifications from our servers. For example, a service called <strong>autopush</strong> is used by <strong>Firefox</strong> and <strong>Firebase cloud-messaging</strong> is used by <strong>Chrome</strong> derivates.</p>
+<p>On the client side, WebPush requires <strong>ServiceWorkers</strong> which are code that runs asynchronously in the background when the browser is open &amp; the ServiceWorker alone can access the <strong>Push API</strong> to subscribe to our server.</p>
+<p>On the server side, we need to provision atleast 3 endpoints.</p>
+<ol>
+<li>A GET request to get cryptographic keys from server.</li>
+<li>A POST request to subscribe for notification from client side.</li>
+<li>A POST request to publish notification to the online service run by the browser.</li>
+</ol>
+<p>In short, when you use WebPush, you rely on a third party service to deliver your notification to the respective browser and for this reason, the notification messages are end-to-end encrypted with the public-key cryptography.</p>
+<h3>Final Notes</h3>
+<p>There is no one best method. One need to carefully consider which of the above methods are suitable for them based on the needs &amp; the system design.</p>
+  </div>
+  <div class="article_meta">
+    <p>Category: <a href="https://prasannavenkadesh.github.io/blog/category/notes.html">Notes</a>
+ &ndash; Tags:
+      <a href="https://prasannavenkadesh.github.io/blog/tag/code.html">code</a>,      <a href="https://prasannavenkadesh.github.io/blog/tag/design.html">design</a>,      <a href="https://prasannavenkadesh.github.io/blog/tag/software.html">software</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>&copy; Prasanna Venkadesh. <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons</a> Attribution ShareAlike. Theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack" target="_blank">github</a>.
+    </div>
+  </main>
+</body>
+</html>

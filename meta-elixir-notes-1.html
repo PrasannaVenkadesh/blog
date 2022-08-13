@@ -3,11 +3,11 @@
 
 <head>
   <!-- ## for client-side less
-  <link rel="stylesheet/less" type="text/css" href="./theme/css/style.less">
+  <link rel="stylesheet/less" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/style.less">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
   -->
-  <link rel="stylesheet" type="text/css" href="./theme/css/style.css">
-  <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/pygments.css">
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
 
   <meta charset="utf-8" />
@@ -28,15 +28,15 @@
 <body>
   <aside>
     <div id="user_meta">
-      <a href=".">
-        <img src="https://prasannavenkadesh.github.io/blog/images/pic.png" alt="logo">
+      <a href="https://prasannavenkadesh.github.io/blog">
+        <img src="/images/pic.png" alt="logo">
       </a>
-      <h3><a href=".">Prasanna Venkadesh</a></h3>
-      <p><a href="https://www.gnu.org/philosophy/free-sw.en.html" target="_blank">Free Software</a> + Free Culture = Free Society</p>
+      <h2><a href="https://prasannavenkadesh.github.io/blog">Towards Freedom</a></h2>
+      <p>Free Software + Free Culture = Freedom</p>
       <ul>
         <li><a href="https://prasannavenkadesh.github.io" target="_blank">About</a></li>
-        <li><a href="https://connect.fshm.in/prashere" target="_blank">Social</a></li>
         <li><a href="https://gitlab.com/prashere" target="_blank">Code</a></li>
+        <li><a href="https://manyver.se" target="_blank">SSB - Manyverse</a></li>
       </ul>
     </div>
   </aside>
@@ -44,14 +44,17 @@
   <main>
     <header>
       <p>
-      <a href=".">Index</a> &brvbar; <a href="./archives.html">Archives</a>
+      <a href="https://prasannavenkadesh.github.io/blog">Index</a> &brvbar; <a href="https://prasannavenkadesh.github.io/blog/archives.html">Archives</a>
       &brvbar; <a href="https://prasannavenkadesh.github.io/blog/feeds/all.atom.xml">Atom</a>
       </p>
     </header>
 
 <article>
   <div class="article_title">
-    <h3><a href="./meta-elixir-notes-1.html">Metaprogramming Elixir Notes - 1</a></h3>
+    <h1><a href="https://prasannavenkadesh.github.io/blog/meta-elixir-notes-1.html">Metaprogramming Elixir Notes - 1</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Sat 11 April 2020</p>
   </div>
   <div class="article_text">
     <p>For the past 6 months, I have been exploring Elixir language and it's ecosystem. Elixir is a dynamic functional language. It compiles to bytecode to run on BEAM (Erlang's Virtual Machine) similar to how Java code is compiled to bytecode to run on JVM. There are fundamental <a href="jvm-beam-differences.html">differences between BEAM and JVM</a>.</p>
@@ -82,32 +85,31 @@
 <li>Macros also allows us to create Domain Specific language terminologies.</li>
 </ol>
 <p>Example Macro &amp; Usage:</p>
-<div class="highlight"><pre><span></span>defmodule MyMacro do
-  defmacro debug({:+, _context, [lhs, rhs]}) do
-    IO.puts &quot;Macro definition Context&quot;
-    quote do
-        IO.puts &quot;Caller&#39;s context&quot;
-        lhs = unquote(lhs)
-        rhs = unquote(rhs)
-        result = lhs + rhs
-        IO.puts &quot;#{lhs} plus #{rhs} equals to #{result}&quot;
-        result
-    end
-  end
-end
+<div class="highlight"><pre><span></span><span class="nv">defmodule</span> <span class="nv">MyMacro</span> <span class="k">do</span>
+  <span class="nv">defmacro</span> <span class="nv">debug</span><span class="ss">(</span>{:<span class="o">+</span>, <span class="nv">_context</span>, [<span class="nv">lhs</span>, <span class="nv">rhs</span>]}<span class="ss">)</span> <span class="k">do</span>
+    <span class="nv">IO</span>.<span class="nv">puts</span> <span class="s2">&quot;</span><span class="s">Macro definition Context</span><span class="s2">&quot;</span>
+    <span class="nv">quote</span> <span class="k">do</span>
+        <span class="nv">IO</span>.<span class="nv">puts</span> <span class="s2">&quot;</span><span class="s">Caller&#39;s context</span><span class="s2">&quot;</span>
+        <span class="nv">lhs</span> <span class="o">=</span> <span class="nv">unquote</span><span class="ss">(</span><span class="nv">lhs</span><span class="ss">)</span>
+        <span class="nv">rhs</span> <span class="o">=</span> <span class="nv">unquote</span><span class="ss">(</span><span class="nv">rhs</span><span class="ss">)</span>
+        <span class="nb">result</span> <span class="o">=</span> <span class="nv">lhs</span> <span class="o">+</span> <span class="nv">rhs</span>
+        <span class="nv">IO</span>.<span class="nv">puts</span> <span class="s2">&quot;</span><span class="s">#{lhs} plus #{rhs} equals to #{result}</span><span class="s2">&quot;</span>
+        <span class="nb">result</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-iex&gt;require MyMacro
-iex&gt;MyMacro.debug(2 + 3)
+<span class="nv">iex</span><span class="o">&gt;</span><span class="nv">require</span> <span class="nv">MyMacro</span>
+<span class="nv">iex</span><span class="o">&gt;</span><span class="nv">MyMacro</span>.<span class="nv">debug</span><span class="ss">(</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="ss">)</span>
 </pre></div>
 
 
 <p>Notes for Chapter 1 ends here. Will share notes for Chapter 2 when I finish it.</p>
   </div>
   <div class="article_meta">
-    <p>Posted on: Sat 11 April 2020</p>
-    <p>Category: <a href="./category/programming.html">Programming</a>
+    <p>Category: <a href="https://prasannavenkadesh.github.io/blog/category/programming.html">Programming</a>
  &ndash; Tags:
-      <a href="./tag/elixir.html">elixir</a>,      <a href="./tag/code.html">code</a>    </p>
+      <a href="https://prasannavenkadesh.github.io/blog/tag/elixir.html">elixir</a>,      <a href="https://prasannavenkadesh.github.io/blog/tag/code.html">code</a>    </p>
   </div>
 
 

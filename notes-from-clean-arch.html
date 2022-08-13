@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ## for client-side less
+  <link rel="stylesheet/less" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/style.less">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
+  -->
+  <link rel="stylesheet" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Prasanna Venkadesh">
+  <meta name="description" content="Posts and writings by Prasanna Venkadesh">
+
+  <link href="https://prasannavenkadesh.github.io/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Towards Freedom Atom" />
+
+<meta name="keywords" content="notes, architecture, books, code, design, software">
+
+  <title>
+    Towards Freedom
+&ndash; Notes from Clean Architecture  </title>
+
+</head>
+
+<body>
+  <aside>
+    <div id="user_meta">
+      <a href="https://prasannavenkadesh.github.io/blog">
+        <img src="/images/pic.png" alt="logo">
+      </a>
+      <h2><a href="https://prasannavenkadesh.github.io/blog">Towards Freedom</a></h2>
+      <p>Free Software + Free Culture = Freedom</p>
+      <ul>
+        <li><a href="https://prasannavenkadesh.github.io" target="_blank">About</a></li>
+        <li><a href="https://gitlab.com/prashere" target="_blank">Code</a></li>
+        <li><a href="https://manyver.se" target="_blank">SSB - Manyverse</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <p>
+      <a href="https://prasannavenkadesh.github.io/blog">Index</a> &brvbar; <a href="https://prasannavenkadesh.github.io/blog/archives.html">Archives</a>
+      &brvbar; <a href="https://prasannavenkadesh.github.io/blog/feeds/all.atom.xml">Atom</a>
+      </p>
+    </header>
+
+<article>
+  <div class="article_title">
+    <h1><a href="https://prasannavenkadesh.github.io/blog/notes-from-clean-arch.html">Notes from Clean Architecture</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Sun 06 December 2020</p>
+  </div>
+  <div class="article_text">
+    <p>These notes are from Clean Architecture book by Robert C.Martin (Uncle Bob) for my self-reference and will be updated as I progress through the chapters.</p>
+<h3>Part 1 - Introduction</h3>
+<ol>
+<li>Both Architecture and Design points to same things in software development (Low-level and high-level details).</li>
+<li>The goal of Architecture is to minimize the amount of human resource required to build and maintin the required system in the long run.</li>
+<li>Tale of 2 Values</li>
+<li>Behaviour: A software program must satisfy the functional requirements.<ul>
+<li>Architecture: A software system must be in a good shape. Easy to extend for new requirements without starting from scratch.</li>
+<li>Both must be satisfied, but if Architecture is compromised, it will become too hard to add new features and proceed further.</li>
+<li>Business managers always go with Behaviour beacuse of the estimate they have projected.</li>
+<li>Developers must fight for a good design and architecture.</li>
+</ul>
+</li>
+<li>To effectively segregate tasks author recommends to use Eisenhower Matrix</li>
+<li>urgent &amp; important (top priority)<ul>
+<li>urgent &amp; not important (delegate)</li>
+<li>not urgent but important (schedule)</li>
+<li>not urgent and not important (avoid)</li>
+</ul>
+</li>
+</ol>
+<h3>Part 2 - Programming Paradigms</h3>
+<p>Programming Paradigms are considered the building blocks (or) bricks of code.</p>
+<ol>
+<li>Different paradigm exists.</li>
+<li>structured<ul>
+<li>object oriented</li>
+<li>functional</li>
+</ul>
+</li>
+<li>Each paradigm enforces a particular discipline on the code. Djisktra's paper "Goto considered harmful"</li>
+<li>Structured programming imposes discipline on direct transfer of control.<ul>
+<li>Object oriented programming imposes discipline on indirect transfer of control.</li>
+<li>Functional programming imposes discpline upon asignment.</li>
+</ul>
+</li>
+<li>These paradigms restrict the way we code in one way or the other enforcing a particular discipline.</li>
+<li>What does these paradigms have go to do with Architecture or design? Examples</li>
+<li>Polymorphism as the mechanism to cross architectural boundaries.<ul>
+<li>functional programming to impose discipline on the location of and access of data.</li>
+<li>structured programming as the algorithmic foundation of our modules.</li>
+<li>In short, function, separation of components and data management.</li>
+</ul>
+</li>
+<li>Decompose functional requirements into atomic verifiable units (functions) and verify their behaviour with unit tests</li>
+<li>Polymorphism paves way for a plugin architecture and depedency inversion for source code dependency over flow of control.</li>
+<li>Author celebrates the power the dependency inversion that polymorphism of OO approach provides.</li>
+<li>A scalable application requires concurrency. The immutable property of functional paradigm (pure functions) helps us achieve great concurrency.</li>
+<li>A well structured application would be segregated into components that mutate variables and components that don't.</li>
+<li>We could take event sourcing model where we don't store and update the state for every transaction, instead we could log the transactions and derive state from it at any given time. But that assumes infinite storage and infinite processing power.</li>
+<li>To summarize, each paradigm restrict some aspect of the way we write code. For the last half-century we have learned what not to do.</li>
+</ol>
+<h3>Part 3 - Design Principles</h3>
+<ol>
+<li>Good software systems begin with clean code.</li>
+<li>On one hand, if the bricks aren't well made, the architecture of the system doesn't matter.</li>
+<li>On the other hand, you can make a mess with a well made bricks. This is where design princples comes in.</li>
+<li>The design principles tell us how to arrange our functions, modules and data structures and how they should be interconnected.</li>
+<li>SOLID is one such design principle.</li>
+<li>The goal of this principles is to create mid-level structures that</li>
+<li>tolerate change,<ul>
+<li>are easy to understand and</li>
+<li>are the basis of components that can be used in many software systems.</li>
+</ul>
+</li>
+<li>SOLID</li>
+<li>SRP (Single Responsibility Principle)<ul>
+<li>a module should be responsible to one, and only, one actor.</li>
+<li>OCP (Open-Closed Principle)</li>
+<li>LSP (Liskov Substitution Principle)</li>
+<li>ISP (Interface Segregation Principle)</li>
+<li>DIP (Dependency Inversion Principle)</li>
+</ul>
+</li>
+</ol>
+  </div>
+  <div class="article_meta">
+    <p>Category: <a href="https://prasannavenkadesh.github.io/blog/category/notes.html">Notes</a>
+ &ndash; Tags:
+      <a href="https://prasannavenkadesh.github.io/blog/tag/notes.html">notes</a>,      <a href="https://prasannavenkadesh.github.io/blog/tag/architecture.html">architecture</a>,      <a href="https://prasannavenkadesh.github.io/blog/tag/books.html">books</a>,      <a href="https://prasannavenkadesh.github.io/blog/tag/code.html">code</a>,      <a href="https://prasannavenkadesh.github.io/blog/tag/design.html">design</a>,      <a href="https://prasannavenkadesh.github.io/blog/tag/software.html">software</a>    </p>
+  </div>
+
+
+</article>
+
+
+    <div id="ending_message">
+      <p>&copy; Prasanna Venkadesh. <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons</a> Attribution ShareAlike. Theme by Giulio Fidente on <a href="https://github.com/gfidente/pelican-svbhack" target="_blank">github</a>.
+    </div>
+  </main>
+</body>
+</html>

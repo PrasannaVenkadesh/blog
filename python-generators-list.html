@@ -3,11 +3,11 @@
 
 <head>
   <!-- ## for client-side less
-  <link rel="stylesheet/less" type="text/css" href="./theme/css/style.less">
+  <link rel="stylesheet/less" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/style.less">
   <script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js" type="text/javascript"></script>
   -->
-  <link rel="stylesheet" type="text/css" href="./theme/css/style.css">
-  <link rel="stylesheet" type="text/css" href="./theme/css/pygments.css">
+  <link rel="stylesheet" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/style.css">
+  <link rel="stylesheet" type="text/css" href="https://prasannavenkadesh.github.io/blog/theme/css/pygments.css">
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=PT+Sans|PT+Serif|PT+Mono">
 
   <meta charset="utf-8" />
@@ -28,15 +28,15 @@
 <body>
   <aside>
     <div id="user_meta">
-      <a href=".">
-        <img src="https://prasannavenkadesh.github.io/blog/images/pic.png" alt="logo">
+      <a href="https://prasannavenkadesh.github.io/blog">
+        <img src="/images/pic.png" alt="logo">
       </a>
-      <h3><a href=".">Prasanna Venkadesh</a></h3>
-      <p><a href="https://www.gnu.org/philosophy/free-sw.en.html" target="_blank">Free Software</a> + Free Culture = Free Society</p>
+      <h2><a href="https://prasannavenkadesh.github.io/blog">Towards Freedom</a></h2>
+      <p>Free Software + Free Culture = Freedom</p>
       <ul>
         <li><a href="https://prasannavenkadesh.github.io" target="_blank">About</a></li>
-        <li><a href="https://connect.fshm.in/prashere" target="_blank">Social</a></li>
         <li><a href="https://gitlab.com/prashere" target="_blank">Code</a></li>
+        <li><a href="https://manyver.se" target="_blank">SSB - Manyverse</a></li>
       </ul>
     </div>
   </aside>
@@ -44,14 +44,17 @@
   <main>
     <header>
       <p>
-      <a href=".">Index</a> &brvbar; <a href="./archives.html">Archives</a>
+      <a href="https://prasannavenkadesh.github.io/blog">Index</a> &brvbar; <a href="https://prasannavenkadesh.github.io/blog/archives.html">Archives</a>
       &brvbar; <a href="https://prasannavenkadesh.github.io/blog/feeds/all.atom.xml">Atom</a>
       </p>
     </header>
 
 <article>
   <div class="article_title">
-    <h3><a href="./python-generators-list.html">Don't Convert Generators to List at Once</a></h3>
+    <h1><a href="https://prasannavenkadesh.github.io/blog/python-generators-list.html">Don't Convert Generators to List at Once</a></h1>
+  </div>
+  <div class="article_meta">
+    <p>Posted on: Sun 12 July 2020</p>
   </div>
   <div class="article_text">
     <p><strong>TL;DR: Convert the generator into list, if and only if the dataset is small, else consume on demand or rethink your design.</strong></p>
@@ -73,27 +76,27 @@
 <p><img alt="screenshot on the amount of memory consumed by converting to list" src="images/memory-1.png"></p>
 <p>If the intention is just to calculate the total number of possible hosts for a given subnet and IP class range, then the above is memory expensive operation as it first prepares a list of all possible addresses and then counting the length of that list. This is clear from the above screenshot of the <code>htop</code> utility which I used to measure the amount of memory the program used for doing that. 24% of memory was used to achive that and the CPU was of-course at 100% (the screenshot was taken after the list was prepared hence 0).</p>
 <p>Instead, the following method can be used to minimize the memory usage.</p>
-<div class="highlight"><pre><span></span>no_of_hosts = 0
-for _ in network.subnet(32):
-    no_of_hosts += 1
+<div class="highlight"><pre><span></span><span class="nv">no_of_hosts</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="nv">_</span> <span class="nv">in</span> <span class="nv">network</span>.<span class="nv">subnet</span><span class="ss">(</span><span class="mi">32</span><span class="ss">)</span>:
+    <span class="nv">no_of_hosts</span> <span class="o">+=</span> <span class="mi">1</span>
 </pre></div>
 
 
 <p>The maximum amount of memory used for this approach is only 0.6%, of-course the CPU usage remains at 100% since the program needs to produce the intended value from generator for such huge range. We just don't hold those values anywhere in our program, hence memory is not occupied for all the generated value.</p>
 <p><img alt="screenshot on the amount of memory consumed by just counting the iterations and not converting to list" src="images/memory-2.png"></p>
 <p>Even a far more better approach for calculating total number of hosts would be to use the formula which is just a quick arithmetic operation.</p>
-<div class="highlight"><pre><span></span>2**(network_length - subnet_length) - 2
+<div class="highlight"><pre><span></span><span class="mf">2</span><span class="o">**</span><span class="p">(</span><span class="n">network_length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">subnet_length</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">2</span><span class="w"></span>
 </pre></div>
 
 
 <p>This solution works if the programmers intention is just to count the number of possible hosts or length of the total values produced by the generator, else if they need to have list the list of ip addresses for other purposes, they can be consumed on the fly for a given number like how the frontend makes use of pagination to display large number of records.</p>
 <p><code>generators</code> have this method called <code>send(arg)</code> for which accepts one argument. We can make use of <code>for</code> loop with <code>range</code> method to get ip addresses in batches.</p>
-<div class="highlight"><pre><span></span>def get_ten_addresses(subnet_generator):
-    return [subnet.send(None) for _ in range(1, 11)]
+<div class="highlight"><pre><span></span><span class="nv">def</span> <span class="nv">get_ten_addresses</span><span class="ss">(</span><span class="nv">subnet_generator</span><span class="ss">)</span>:
+    <span class="k">return</span> [<span class="nv">subnet</span>.<span class="k">send</span><span class="ss">(</span><span class="nv">None</span><span class="ss">)</span> <span class="k">for</span> <span class="nv">_</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="mi">1</span>, <span class="mi">11</span><span class="ss">)</span>]
 
-subnet = network.subnet(32)
-ten_addresses = get_ten_addresses(subnet)
-next_ten_addresses = get_ten_addresses(subnet)
+<span class="nv">subnet</span> <span class="o">=</span> <span class="nv">network</span>.<span class="nv">subnet</span><span class="ss">(</span><span class="mi">32</span><span class="ss">)</span>
+<span class="nv">ten_addresses</span> <span class="o">=</span> <span class="nv">get_ten_addresses</span><span class="ss">(</span><span class="nv">subnet</span><span class="ss">)</span>
+<span class="nv">next_ten_addresses</span> <span class="o">=</span> <span class="nv">get_ten_addresses</span><span class="ss">(</span><span class="nv">subnet</span><span class="ss">)</span>
 </pre></div>
 
 
@@ -101,10 +104,9 @@ next_ten_addresses = get_ten_addresses(subnet)
 <p>If the solution depends on the entire list of values to be available, probably we need to rethink the design to store such datasets into some other disk (or) file based containers like RDBMS and retrieve it from there.</p>
   </div>
   <div class="article_meta">
-    <p>Posted on: Sun 12 July 2020</p>
-    <p>Category: <a href="./category/programming.html">Programming</a>
+    <p>Category: <a href="https://prasannavenkadesh.github.io/blog/category/programming.html">Programming</a>
  &ndash; Tags:
-      <a href="./tag/python.html">python</a>    </p>
+      <a href="https://prasannavenkadesh.github.io/blog/tag/python.html">python</a>    </p>
   </div>
 
 
